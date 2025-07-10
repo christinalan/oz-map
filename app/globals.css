@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 
 :root {
   --background: #ffffff;
