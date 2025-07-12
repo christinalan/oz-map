@@ -1,6 +1,9 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import 'ol/ol.css';
+import { createMarkerOverlay } from './markerFactory';
+import { hotspots, Hotspot } from '../data/hotspots';
+import VideoModal from './VideoModal';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
@@ -10,9 +13,28 @@ const tileSize = 256;
 
 export default function MapView() {
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<any>(null);
+  const initializedRef = useRef(false);
+  
+  // Modal state
+  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleMarkerClick = (hotspot: Hotspot) => {
+    setSelectedHotspot(hotspot);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedHotspot(null);
+  };
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !mapRef.current) return;
+    if (typeof window === 'undefined' || !mapRef.current || initializedRef.current) return;
+
+    // Mark as initialized to prevent double creation
+    initializedRef.current = true;
 
     Promise.all([
       import('ol/Map'),
@@ -63,18 +85,44 @@ export default function MapView() {
         view,
       });
 
+      // Store the map instance
+      mapInstanceRef.current = map;
+
       // Fit the view to the image extent
       view.fit(extent, { size: map.getSize() });
 
+      // Create markers for all hotspots
+      Promise.all(
+        hotspots.map(hotspot => 
+          createMarkerOverlay(hotspot, handleMarkerClick)
+        )
+      ).then((overlays) => {
+        // Add all overlays to the map
+        overlays.forEach(overlay => map.addOverlay(overlay));
+      });
+
       // Clean up on unmount
-      return () => map.setTarget(undefined);
+      return () => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.setTarget(undefined);
+          mapInstanceRef.current = null;
+        }
+        initializedRef.current = false;
+      };
     });
   }, []);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
-      {/* Overlay your modals, video, etc. here */}
-    </div>
+    <>
+      <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+        <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+      </div>
+      
+      <VideoModal
+        hotspot={selectedHotspot}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+    </>
   );
 }
