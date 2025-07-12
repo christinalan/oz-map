@@ -4,6 +4,7 @@ import 'ol/ol.css';
 import { createMarkerOverlay } from './markerFactory';
 import { hotspots, Hotspot } from '../data/hotspots';
 import VideoModal from './VideoModal';
+import type Map from 'ol/Map';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
@@ -13,7 +14,7 @@ const tileSize = 256;
 
 export default function MapView() {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
+  const mapInstanceRef = useRef<Map | null>(null);
   const initializedRef = useRef(false);
   
   // Modal state
