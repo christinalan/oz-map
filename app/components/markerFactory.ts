@@ -30,6 +30,7 @@ export function createMarkerOverlay(
     transform: translate(-50%, -50%);
     transition: all 0.2s ease;
     animation: pulse-glow 2s ease-in-out infinite;
+    outline: none;
   `;
   
   // Add CSS animation for pulsing glow effect
@@ -61,8 +62,8 @@ export function createMarkerOverlay(
     document.head.appendChild(style);
   }
   
-  // Add hover effect
-  markerElement.addEventListener('mouseenter', () => {
+  // Add hover and focus effects
+  const handleFocus = () => {
     markerElement.style.transform = 'translate(-50%, -50%) scale(1.3)';
     markerElement.style.boxShadow = `
       0 0 20px ${glowColor},
@@ -70,9 +71,9 @@ export function createMarkerOverlay(
       0 0 40px ${glowColor},
       0 4px 8px rgba(0,0,0,0.4)
     `;
-  });
-  
-  markerElement.addEventListener('mouseleave', () => {
+  };
+
+  const handleBlur = () => {
     markerElement.style.transform = 'translate(-50%, -50%) scale(1)';
     markerElement.style.boxShadow = `
       0 0 10px ${glowColor},
@@ -80,13 +81,29 @@ export function createMarkerOverlay(
       0 0 30px ${glowColor},
       0 2px 4px rgba(0,0,0,0.3)
     `;
-  });
+  };
+
+  markerElement.addEventListener('mouseenter', handleFocus);
+  markerElement.addEventListener('mouseleave', handleBlur);
+  markerElement.addEventListener('focus', handleFocus);
+  markerElement.addEventListener('blur', handleBlur);
   
-  // Add title for tooltip
+  // Add accessibility attributes
+  markerElement.setAttribute('tabindex', '0');
+  markerElement.setAttribute('role', 'button');
+  markerElement.setAttribute('aria-label', `Visit ${hotspot.title}`);
   markerElement.title = hotspot.title;
   
   // Add click handler
   markerElement.addEventListener('click', () => onMarkerClick(hotspot));
+  
+  // Add keyboard handler
+  markerElement.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onMarkerClick(hotspot);
+    }
+  });
 
   // Dynamically import OpenLayers Overlay
   return import('ol/Overlay').then(({ default: Overlay }) => {
@@ -96,6 +113,23 @@ export function createMarkerOverlay(
     });
 
     overlay.setPosition(hotspot.position);
+    
+    // Ensure accessibility attributes are set after overlay creation
+    setTimeout(() => {
+      if (markerElement.parentNode) {
+        markerElement.setAttribute('tabindex', '0');
+        markerElement.setAttribute('role', 'button');
+        markerElement.setAttribute('aria-label', `Visit ${hotspot.title}`);
+        markerElement.title = hotspot.title;
+      }
+    }, 100);
+    
+    // Also set attributes immediately
+    markerElement.setAttribute('tabindex', '0');
+    markerElement.setAttribute('role', 'button');
+    markerElement.setAttribute('aria-label', `Visit ${hotspot.title}`);
+    markerElement.title = hotspot.title;
+    
     return overlay;
   });
 } 

@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 const MapView = dynamic(() => import('./MapView'), { ssr: false });
 
@@ -32,10 +33,12 @@ export default function MapViewClient() {
           onClick={handleEnterOz}
         >
           <div className="text-center w-full h-full relative">
-            <img 
+            <Image 
               src="/map_full.webp" 
               alt="Loading Map" 
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              priority
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <h1 className={`text-black text-6xl font-bold retro-text cursor-pointer transition-all duration-300 ${

@@ -27,8 +27,6 @@ export default function MapView({ onMapLoad }: MapViewProps) {
   
   // Loading state
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-  const [loadedTiles, setLoadedTiles] = useState(0);
-  const [totalTiles, setTotalTiles] = useState(0);
 
   const handleMarkerClick = (hotspot: Hotspot) => {
     setSelectedHotspot(hotspot);
@@ -102,18 +100,16 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       view.fit(extent, { size: map.getSize() });
 
       // Track tile loading progress
-      const tileLayer = map.getLayers().getArray()[0] as any;
+      const tileLayer = map.getLayers().getArray()[0] as import('ol/layer/Tile').default;
       let loadedCount = 0;
       let totalCount = 0;
 
       tileLayer.getSource()?.on('tileloadstart', () => {
         totalCount++;
-        setTotalTiles(totalCount);
       });
 
       tileLayer.getSource()?.on('tileloadend', () => {
         loadedCount++;
-        setLoadedTiles(loadedCount);
         
         // Check if all tiles are loaded
         if (loadedCount >= totalCount && totalCount > 0) {
@@ -122,6 +118,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       });
 
       // Create markers for all hotspots
+      console.log('Creating markers for hotspots:', hotspots.length);
       Promise.all(
         hotspots.map(hotspot => 
           createMarkerOverlay(hotspot, handleMarkerClick)
