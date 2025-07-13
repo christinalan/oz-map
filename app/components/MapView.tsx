@@ -12,7 +12,11 @@ const minZoom = 0;
 const maxZoom = 5;
 const tileSize = 256;
 
-export default function MapView() {
+interface MapViewProps {
+  onMapLoad?: (isLoaded: boolean) => void;
+}
+
+export default function MapView({ onMapLoad }: MapViewProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
   const initializedRef = useRef(false);
@@ -20,6 +24,11 @@ export default function MapView() {
   // Modal state
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Loading state
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [loadedTiles, setLoadedTiles] = useState(0);
+  const [totalTiles, setTotalTiles] = useState(0);
 
   const handleMarkerClick = (hotspot: Hotspot) => {
     setSelectedHotspot(hotspot);
@@ -92,6 +101,26 @@ export default function MapView() {
       // Fit the view to the image extent
       view.fit(extent, { size: map.getSize() });
 
+      // Track tile loading progress
+      const tileLayer = map.getLayers().getArray()[0] as any;
+      let loadedCount = 0;
+      let totalCount = 0;
+
+      tileLayer.getSource()?.on('tileloadstart', () => {
+        totalCount++;
+        setTotalTiles(totalCount);
+      });
+
+      tileLayer.getSource()?.on('tileloadend', () => {
+        loadedCount++;
+        setLoadedTiles(loadedCount);
+        
+        // Check if all tiles are loaded
+        if (loadedCount >= totalCount && totalCount > 0) {
+          setIsMapLoaded(true);
+        }
+      });
+
       // Create markers for all hotspots
       Promise.all(
         hotspots.map(hotspot => 
@@ -100,6 +129,11 @@ export default function MapView() {
       ).then((overlays) => {
         // Add all overlays to the map
         overlays.forEach(overlay => map.addOverlay(overlay));
+        
+        // If no tiles were loaded (cached), mark as loaded
+        if (totalCount === 0) {
+          setIsMapLoaded(true);
+        }
       });
 
       // Clean up on unmount
@@ -111,7 +145,14 @@ export default function MapView() {
         initializedRef.current = false;
       };
     });
-  }, []);
+  }, [onMapLoad]);
+
+  // Notify parent when map loading state changes
+  useEffect(() => {
+    if (onMapLoad) {
+      onMapLoad(isMapLoaded);
+    }
+  }, [isMapLoaded, onMapLoad]);
 
   return (
     <>
