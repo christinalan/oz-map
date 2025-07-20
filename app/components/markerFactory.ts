@@ -34,6 +34,55 @@ export function createMarkerOverlay(
   markerElement.addEventListener('focus', handleFocus);
   markerElement.addEventListener('blur', handleBlur);
 
+  // Create pill element for location name
+  const pill = document.createElement('div');
+  pill.textContent = hotspot.title;
+  pill.style.cssText = `
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    color: #171717;
+    padding: 6px 18px;
+    border-radius: 9999px;
+    font-size: 1.25rem;
+    font-family: var(--retro-font, 'VT323', monospace);
+    font-weight: 700;
+    box-shadow: inset 0 0 0 2px #e5e7eb, 0 2px 8px rgba(0,0,0,0.08);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 20;
+    white-space: nowrap;
+    pointer-events: none;
+  `;
+
+  // Container for marker and pill
+  const container = document.createElement('div');
+  // Do NOT set position: absolute, left, or top on the container
+  container.appendChild(pill);
+  container.appendChild(markerElement);
+
+  // Show/hide pill on hover/focus
+  const showPill = () => { pill.style.opacity = '1'; };
+  const hidePill = () => { pill.style.opacity = '0'; };
+  markerElement.addEventListener('mouseenter', showPill);
+  markerElement.addEventListener('mouseleave', hidePill);
+  markerElement.addEventListener('focus', showPill);
+  markerElement.addEventListener('blur', hidePill);
+
+  // Move pill to the right of the cursor on mousemove
+  markerElement.addEventListener('mousemove', (e) => {
+    // e.offsetX/Y is relative to the markerElement
+    pill.style.top = `-24px`;
+    pill.style.left = `24px`;
+  });
+  // For keyboard focus, place pill to the right of the marker
+  markerElement.addEventListener('focus', () => {
+    pill.style.top = `-24px`;
+    pill.style.left = `24px`;
+  });
+
   // Add accessibility attributes
   markerElement.setAttribute('tabindex', '0');
   markerElement.setAttribute('role', 'button');
@@ -54,7 +103,7 @@ export function createMarkerOverlay(
   // Dynamically import OpenLayers Overlay
   return import('ol/Overlay').then(({ default: Overlay }) => {
     const overlay = new Overlay({
-      element: markerElement,
+      element: container,
       positioning: 'center-center',
     });
     overlay.setPosition(hotspot.position);
