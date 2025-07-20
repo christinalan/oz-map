@@ -5,88 +5,77 @@ export interface Hotspot {
   description: string;
   videoUrl: string;
   thumbnail?: string;
-  duration?: string; // e.g., "2:30"
 }
 
 export const hotspots: Hotspot[] = [
   {
-    id: 'sydney-opera',
-    position: [7259, -6731], // Center of map
-    title: 'Sydney Opera House',
-    description: 'Iconic performing arts center and architectural masterpiece of the 20th century.',
+    id: 'munchkin-river',
+    position: [11444, -6102],
+    title: "Munchkin River",
+    description: '',
     videoUrl: '/videos/landscape.mp4',
-    duration: '1:45'
   },
   {
-    id: 'great-barrier-reef',
-    position: [8000, -5000],
-    title: 'Great Barrier Reef',
-    description: 'World\'s largest coral reef system and marine biodiversity hotspot.',
+    id: 'great-sandy-waste',
+    position: [600, -6342],
+    title: "Great Sandy Waste",
+    description: '',
     videoUrl: '/videos/portrait.mp4',
-    duration: '2:30'
   },
   {
-    id: 'uluru',
-    position: [5000, -4000],
-    title: 'Uluru (Ayers Rock)',
-    description: 'Sacred sandstone monolith in the heart of Australia\'s Red Centre.',
+    id: 'glindas-library',
+    position: [7627, -11101],
+    title: "Glinda's Library",
+    description: '',
     videoUrl: '/videos/landscape.mp4',
-    duration: '3:15'
   },
   {
-    id: 'melbourne-cbd',
-    position: [6000, -6000],
-    title: 'Melbourne CBD',
-    description: 'Cultural capital with world-class dining, arts, and laneway culture.',
+    id: 'poppy-field',
+    position: [9814, -6879],
+    title: "Poppy Field",
+    description: '',
     videoUrl: '/videos/portrait.mp4',
-    duration: '1:20'
   },
   {
-    id: 'perth-skyline',
-    position: [4000, -7000],
-    title: 'Perth Skyline',
-    description: 'Modern cityscape with stunning Swan River views and urban development.',
+    id: 'yoop-castle',
+    position: [8661, -5178],
+    title: "Yoop Castle",
+    description: '',
     videoUrl: '/videos/landscape.mp4',
-    duration: '2:45'
   },
   {
-    id: 'adelaide-hills',
-    position: [7000, -8000],
-    title: 'Adelaide Hills',
-    description: 'Rolling vineyards and charming towns in South Australia\'s wine region.',
+    id: 'rolling-lands',
+    position: [8486, -4691],
+    title: "Rolling Lands",
+    description: '',
     videoUrl: '/videos/portrait.mp4',
-    duration: '3:00'
   },
   {
-    id: 'brisbane-river',
-    position: [9000, -3000],
-    title: 'Brisbane River',
-    description: 'Meandering waterway through Queensland\'s vibrant capital city.',
+    id: 'mombis-hovel',
+    position: [7957, -4028],
+    title: "Mombi's Hovel",
+    description: '',
     videoUrl: '/videos/landscape.mp4',
-    duration: '1:55'
   },
   {
-    id: 'darwin-harbor',
-    position: [3000, -9000],
-    title: 'Darwin Harbor',
-    description: 'Tropical port city with rich Indigenous culture and stunning sunsets.',
+    id: 'fiddlestick-forest',
+    position: [7886, -6791],
+    title: "Fiddlestick Forest",
+    description: '',
     videoUrl: '/videos/portrait.mp4',
-    duration: '2:10'
   },
   {
-    id: 'hobart-waterfront',
-    position: [10000, -10000],
-    title: 'Hobart Waterfront',
-    description: 'Historic port with convict heritage and modern culinary scene.',
+    id: 'marshland',
+    position: [5658, -5265],
+    title: "Marshland",
+    description: '',
     videoUrl: '/videos/landscape.mp4',
-    duration: '2:30'
   },
   {
-    id: 'canberra-parliament',
-    position: [6500, -7500],
-    title: 'Canberra Parliament House',
-    description: 'Nation\'s capital with iconic architecture and democratic heritage.',
+    id: 'emerald-city',
+    position: [7089, -6395],
+    title: "Emerald City",
+    description: '',
     videoUrl: '/videos/portrait.mp4',
-    duration: '1:40'
-  }
+  },
 ]; 
