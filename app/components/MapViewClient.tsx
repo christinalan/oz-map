@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -9,6 +9,15 @@ export default function MapViewClient() {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [highResLoaded, setHighResLoaded] = useState(false);
+
+  // Preload high-res png
+  useEffect(() => {
+    const img = new window.Image();
+    img.src = '/map_highres.jpg';
+    img.onload = () => setHighResLoaded(true);
+    console.log('High-res png loaded:', highResLoaded);
+  }, []);
 
   const handleMapLoad = (loaded: boolean) => {
     setIsMapLoaded(loaded);
@@ -34,7 +43,7 @@ export default function MapViewClient() {
         >
           <div className="text-center w-full h-full relative">
             <Image 
-              src="/map_full.webp" 
+              src={highResLoaded ? "/map_highres.jpg" : "/map_full.webp"}
               alt="Loading Map" 
               fill
               className="object-cover"
@@ -42,9 +51,9 @@ export default function MapViewClient() {
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <h1 className={`text-black text-6xl font-bold retro-text cursor-pointer transition-all duration-300 ${
-                isMapLoaded ? 'animate-pulse hover:scale-110' : 'animate-pulse'
+                isMapLoaded && highResLoaded ? 'animate-pulse hover:scale-110' : 'animate-pulse'
               }`}>
-                {isMapLoaded ? 'Explore Oz' : 'Loading'}
+                {isMapLoaded && highResLoaded ? 'Explore Oz' : 'Loading'}
               </h1>
             </div>
           </div>
