@@ -72,8 +72,7 @@ export function createMarkerOverlay(
   markerElement.addEventListener('blur', hidePill);
 
   // Move pill to the right of the cursor on mousemove
-  markerElement.addEventListener('mousemove', (e) => {
-    // e.offsetX/Y is relative to the markerElement
+  markerElement.addEventListener('mousemove', () => {
     pill.style.top = `-24px`;
     pill.style.left = `24px`;
   });
