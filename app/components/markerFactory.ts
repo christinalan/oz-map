@@ -46,6 +46,7 @@ export function createMarkerOverlay(
     padding: 6px 18px;
     border-radius: 9999px;
     font-size: 1.25rem;
+    font-family: var(--font-pt-monument);
     font-weight: 700;
     box-shadow: inset 0 0 0 2px #e5e7eb, 0 2px 8px rgba(0,0,0,0.08);
     opacity: 0;

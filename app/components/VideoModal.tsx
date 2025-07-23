@@ -80,7 +80,7 @@ export default function VideoModal({ hotspot, isOpen, onClose }: VideoModalProps
     >
       {/* Location title positioned at top */}
       <div className="absolute top-4 z-10 m-auto w-full">
-        <h2 className="text-white text-center text-2xl font-bold retro-text drop-shadow-lg">
+        <h2 className="text-white text-center text-2xl font-pt-monument drop-shadow-lg">
           {hotspot.title}
         </h2>
       </div>

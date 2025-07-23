@@ -37,7 +37,7 @@ export default function MapView({ onMapLoad, selectedHotspotId, onCloseHotspot }
   const handleMarkerClick = (hotspot: Hotspot) => {
     // Use router to push the new route
     if (typeof window !== 'undefined') {
-      window.location.assign(`/${hotspot.id}`);
+      window.location.assign(`/explore/${hotspot.id}`);
     }
   };
 
