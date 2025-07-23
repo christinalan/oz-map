@@ -20,6 +20,7 @@ export default function MapViewClient({ selectedHotspotId, onCloseHotspot }: Map
 
   // Preload high-res png
   useEffect(() => {
+    console.log('preloading high-res image');
     if (SKIP_LOADING) return;
     const img = new window.Image();
     img.src = '/map_highres.webp';

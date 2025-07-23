@@ -1,5 +1,5 @@
-import MapView from './components/MapView';
+import MapViewClient from './components/MapViewClient';
 
 export default function HomePage() {
-  return <MapView />;
+  return <MapViewClient />;
 }

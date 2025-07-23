@@ -46,13 +46,12 @@ export function createMarkerOverlay(
     padding: 6px 18px;
     border-radius: 9999px;
     font-size: 1.25rem;
-    font-family: var(--retro-font, 'VT323', monospace);
     font-weight: 700;
     box-shadow: inset 0 0 0 2px #e5e7eb, 0 2px 8px rgba(0,0,0,0.08);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
-    z-index: 20;
+    z-index: 20000;
     white-space: nowrap;
     pointer-events: none;
   `;
@@ -64,8 +63,14 @@ export function createMarkerOverlay(
   container.appendChild(markerElement);
 
   // Show/hide pill on hover/focus
-  const showPill = () => { pill.style.opacity = '1'; };
-  const hidePill = () => { pill.style.opacity = '0'; };
+  const showPill = () => { 
+    pill.style.opacity = '1'; 
+    pill.style.zIndex = '1000'; // Bring to front
+  };
+  const hidePill = () => { 
+    pill.style.opacity = '0'; 
+    pill.style.zIndex = '20'; // Reset to default
+  };
   markerElement.addEventListener('mouseenter', showPill);
   markerElement.addEventListener('mouseleave', hidePill);
   markerElement.addEventListener('focus', showPill);
