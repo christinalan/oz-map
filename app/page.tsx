@@ -52,7 +52,7 @@ export default function HomePage() {
           )}
           {/* Text overlay */}
           <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ zIndex: 2 }}>
-            <h1 className="text-black text-6xl font-pt-monument transition-all duration-300 animate-pulse mb-8">
+            <h1 className="text-black text-4xl md:text-6xl font-pt-monument transition-all duration-300 animate-pulse mb-8">
               {highResLoaded ? 'Explore Oz' : 'Loading'}
             </h1>
             {highResLoaded && (
