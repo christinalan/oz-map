@@ -59,7 +59,7 @@ export default function HomePage() {
               {highResLoaded && (
                 <button
                   onClick={handleEnterOz}
-                  className="px-6 py-2 text-2xl rounded-lg shadow-2xl hover:scale-105 duration-300 animate-pulse transition-all font-bold font-sans"
+                  className="px-6 py-2 text-2xl rounded-lg shadow-2xl hover:scale-105 duration-300 animate-pulse transition-all font-pt-monument"
                   style={{ backgroundColor: '#3C9A78', boxShadow: '0 8px 32px 16px rgba(60,154,120,0.45)' }}
                 >
                   Enter

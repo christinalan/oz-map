@@ -150,3 +150,7 @@ body {
 .delay-200 {
   animation-delay: 200ms;
 }
+
+.custom-cursor {
+  cursor: url('/cursor.svg') 31 31, auto;
+}

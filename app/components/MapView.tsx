@@ -5,6 +5,9 @@ import 'ol/ol.css';
 import { createMarkerOverlay } from './markerFactory';
 import { hotspots, Hotspot } from '../data/hotspots';
 import type Map from 'ol/Map';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
@@ -193,10 +196,39 @@ export default function MapView({ onMapLoad }: MapViewProps) {
     <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
       <div 
         ref={mapRef} 
-        className={`w-full h-full transition-all duration-300 cursor-move ${
+        className={`w-full h-full transition-all duration-300 custom-cursor ${
           isModalOpen ? 'blur-sm' : ''
         }`} 
-      />
-    </div>
-  );
+              />
+        <Link href="https://ultimateozuniverse.com" className="absolute p-4 rounded top-1 left-1 md:top-4 md:left-2 z-10">
+          <Image 
+            src="/logo.png" 
+            alt="Ultimate Oz Universe" 
+            width={150}
+            height={60} 
+            className="min-w-[70px] w-[8vw] drop-shadow-lg shadow-black/30"
+          />
+        </Link>
+        
+        {/* Hotspots Dropdown */}
+        { ! isModalOpen && <div className="absolute bottom-4 right-2 md:right-4 z-10 mt-2">
+          <MenuProvider>
+            <MenuButton className="text-white px-4 py-2 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument">
+              Explore Locations
+            </MenuButton>
+            <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[60vh] overflow-y-auto mt-2 mb-2">
+              {hotspots.map((hotspot) => (
+                <MenuItem
+                  key={hotspot.id}
+                  className="block w-full text-left px-4 py-3 text-white hover:bg-white hover:bg-opacity-20 rounded-xl transition-colors duration-200 font-pt-monument text-sm"
+                  onClick={() => router.push(`/explore/${hotspot.id}`, { scroll: false })}
+                >
+                  <div className="font-bold">{hotspot.title}</div>
+                </MenuItem>
+              ))}
+            </Menu>
+          </MenuProvider>
+        </div> }
+      </div>
+    );
 }

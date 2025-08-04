@@ -30,7 +30,7 @@ export default function HotspotModal({
        <Dialog
           open
           onClose={() => router.back()}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-55 animate-in fade-in duration-300 p-2"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-55 animate-in fade-in duration-300 p-2 overflow-y-auto"
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
           autoFocusOnHide={(element) => {
@@ -42,15 +42,15 @@ export default function HotspotModal({
           }}
           onClick={handleBackdropClick}
         >
-          <div className="animate-in zoom-in-95 duration-300 max-w-[720px] p-6 md:p-8 border border-solid border-gray-600 rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75">
+		<div className="animate-in zoom-in-95 duration-300 max-w-[720px] w-full p-4 md:p-8 border border-solid border-gray-600 rounded-xl md:rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75 max-h-[90vh] overflow-y-auto">
             <DialogHeading 
               id="modal-title"
-              className="text-white text-3xl font-bold text-shadow-xl font-pt-monument drop-shadow-lg"
+              className="text-white text-xl md:text-3xl font-bold text-shadow-xl font-pt-monument drop-shadow-lg"
             >
               {hotspot.title}
             </DialogHeading>
             <video
-              className="object-contain"
+              className="object-contain max-h-[70vh]"
               controls
               preload="metadata"
               poster={hotspot.thumbnail}
@@ -66,7 +66,7 @@ export default function HotspotModal({
 
           {/* Return to Oz button positioned at bottom */}
           <button
-            className="absolute bottom-4 right-4 z-10 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-80 rounded-lg px-4 py-2"
+            className="absolute bottom-4 right-4 z-10 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-80 rounded-lg font-pt-monument px-4 py-2"
             aria-label="Return to Oz"
 			onClick={() => router.back()}
           >
