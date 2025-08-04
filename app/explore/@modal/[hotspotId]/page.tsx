@@ -3,6 +3,7 @@ import { use } from "react";
 import { useRouter } from "next/navigation.js";
 import { Dialog, DialogDescription, DialogHeading } from "@ariakit/react";
 import { hotspots } from "../../../data/hotspots";
+import MapViewClient from "@/app/components/MapViewClient";
 
 export default function HotspotModal({
 	params,
@@ -16,7 +17,7 @@ export default function HotspotModal({
 	const hotspot = hotspots.find(h => h.id === hotspotId);
 	
 	if (!hotspot) {
-		return <h1>Oops! Nothing to see here</h1>;
+		return <MapViewClient/>;
 	}
 
 	const handleBackdropClick = (event: React.MouseEvent) => {
