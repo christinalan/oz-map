@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ariakit/react": "^0.4.17",
     "leaflet": "^1.9.4",
     "next": "15.3.5",
     "ol": "^10.6.1",

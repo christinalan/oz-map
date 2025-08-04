@@ -20,11 +20,12 @@ export function createMarkerOverlay(
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     outline: none;
     z-index: 10;
+    animation: ${hotspot.position[0] % 2 === 0 ? 'flagSwayA' : 'flagSwayB' } 3s ease-in-out infinite;
   `;
 
   // Add hover and focus effects
   const handleFocus = () => {
-    markerElement.style.transform = 'translate(-50%, -50%) scale(1.2)';
+    markerElement.style.transform = 'translate(-50%, -50%) scale(1.5)';
   };
   const handleBlur = () => {
     markerElement.style.transform = 'translate(-50%, -50%) scale(1)';
@@ -43,7 +44,7 @@ export function createMarkerOverlay(
     top: 0;
     background: #fff;
     color: #171717;
-    padding: 6px 18px;
+    padding: 8px 18px 6px;
     border-radius: 9999px;
     font-size: 1.25rem;
     font-family: var(--font-pt-monument);

@@ -23,7 +23,7 @@ export default function HomePage() {
     <main className="flex flex-col items-center justify-center min-h-screen">
       {/* Loading Screen */}
       <div 
-        className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 flex items-center justify-center bg-black animate-in fade-in transition-opacity duration-300 ${
           isTransitioning ? 'opacity-0' : 'opacity-100'
         }`}
       >
@@ -51,19 +51,21 @@ export default function HomePage() {
             />
           )}
           {/* Text overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ zIndex: 2 }}>
-            <h1 className="text-black text-4xl md:text-6xl font-pt-monument transition-all duration-300 animate-pulse mb-8">
-              {highResLoaded ? 'Explore Oz' : 'Loading'}
-            </h1>
-            {highResLoaded && (
-              <button
-                onClick={handleEnterOz}
-                className="px-6 py-2 pt-3 text-2xl rounded-lg shadow-2xl hover:scale-105 transition-transform font-bold font-pt-monument"
-                style={{ backgroundColor: '#3C9A78', boxShadow: '0 8px 32px 16px rgba(60,154,120,0.45)' }}
-              >
-                Enter
-              </button>
-            )}
+          <div className="absolute inset-0 flex flex-col items-center justify-center animate-in fade-in" style={{ zIndex: 2 }}>
+            <div className="py-16 p-12 border border-solid border-gray-600 bg-black bg-opacity-80 bg-blur rounded-3xl">
+              <h1 className="text-white text-4xl md:text-5xl font-bold font-pt-monument transition-all duration-300 mb-8">
+                {highResLoaded ? 'Explore Oz' : 'Loading'}
+              </h1>
+              {highResLoaded && (
+                <button
+                  onClick={handleEnterOz}
+                  className="px-6 py-2 text-2xl rounded-lg shadow-2xl hover:scale-105 duration-300 animate-pulse transition-all font-bold font-sans"
+                  style={{ backgroundColor: '#3C9A78', boxShadow: '0 8px 32px 16px rgba(60,154,120,0.45)' }}
+                >
+                  Enter
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

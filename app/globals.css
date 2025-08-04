@@ -64,9 +64,89 @@ body {
   font-family: var(--font-pt-momument);
 }
 
+.ol-zoom { 
+  display: none;
+}
+
 /* .retro-text {
   font-family: var(--retro-font);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 } */
+
+@keyframes flagSwayA {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(-8deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1) rotate(8deg);
+  }
+}
+
+@keyframes flagSwayB {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1) rotate(-5deg);
+  }
+}
+
+/* Animation utilities for modal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.zoom-in-95 {
+  animation: zoomIn 0.3s ease-out;
+}
+
+.slide-in-from-bottom-4 {
+  animation: slideInFromBottom 0.5s ease-out;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
