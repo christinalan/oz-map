@@ -88,25 +88,27 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       const viewport = map.getViewport();
       viewport.addEventListener('wheel', (event) => {
         event.preventDefault();
-        const panAmount = 5;
+      
+        const panMultiplier = 5;
+        const deadzone = 0.1; // ignore very small scrolls
+      
         let deltaX = 0, deltaY = 0;
-        if (event.shiftKey && event.deltaX === 0 && event.deltaY !== 0) {
-          // Shift + vertical wheel = horizontal pan
-          deltaX = event.deltaY * panAmount;
+      
+        // Shift + vertical scroll acts as horizontal pan
+        if (event.shiftKey && Math.abs(event.deltaY) > deadzone) {
+          deltaX = event.deltaY * panMultiplier;
         } else {
-          // Normal horizontal scroll (trackpad or horizontal wheel)
-          if (event.deltaX !== 0) {
-            deltaX = event.deltaX * panAmount;
+          if (Math.abs(event.deltaX) > deadzone) {
+            deltaX = event.deltaX * panMultiplier;
           }
-          // Normal vertical scroll
-          if (event.deltaY !== 0) {
-            deltaY = event.deltaY * panAmount;
-          }
-          if (event.deltaX !== 0 && event.deltaY !== 0) {
-            deltaX = event.deltaX * panAmount;
-            deltaY = -event.deltaY * panAmount;
+          if (Math.abs(event.deltaY) > deadzone) {
+            deltaY = event.deltaY * panMultiplier;
           }
         }
+      
+        // Optional: invert Y direction if panning feels backwards
+        deltaY = -deltaY;
+      
         const center = view.getCenter();
         if (center) {
           view.setCenter([center[0] + deltaX, center[1] + deltaY]);
@@ -184,7 +186,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         initializedRef.current = false;
       };
     });
-  }, [onMapLoad]);
+  }, [onMapLoad, handleMarkerClick]);
 
   useEffect(() => {
     if (onMapLoad) {
