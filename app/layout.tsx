@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Ultimate Oz Universe — The Oz Map",
   description: "The most accurate map of Oz ever. Discover the Lost Lands and beyond.",
   icons: [
+    { rel: 'icon', url: '/favicon', type: 'image/ico', sizes: '272x272' },
     { rel: 'icon', url: '/OZ-FAVICON-JUNE-2025-80x80.png', type: 'image/png', sizes: '80x80' },
     { rel: 'icon', url: '/OZ-FAVICON-JUNE-2025-272x272.png', type: 'image/png', sizes: '272x272' },
   ],
