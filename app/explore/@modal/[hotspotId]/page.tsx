@@ -60,7 +60,7 @@ export default function HotspotModal({
               <source src={hotspot.videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <DialogDescription className="font-sans text-sm leading-5">
+            <DialogDescription className="font-sans text-sm leading-5 text-white">
               {hotspot.description}
             </DialogDescription>
           </div>
