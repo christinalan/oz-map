@@ -7,14 +7,15 @@ export function createMarkerOverlay(
 ) {
   // Use an img element for the marker
   const markerElement = document.createElement('img');
-  markerElement.src = '/wavy-flag.svg';
+  // markerElement.src = '/wavy-flag.svg';
+  markerElement.src = '/wavy-flag.png';
   markerElement.alt = `Visit ${hotspot.title}`;
   markerElement.width = 32;
   markerElement.height = 40;
   markerElement.style.cssText = `
     display: block;
     width: 54px;
-    height: 54px;
+    height: 64px;
     cursor: pointer;
     transform: translate(-50%, -50%) scale(1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;

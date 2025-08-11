@@ -204,11 +204,11 @@ export default function MapView({ onMapLoad }: MapViewProps) {
               />
         <Link href="https://ultimateozuniverse.com" className="absolute p-4 rounded top-1 left-1 md:top-4 md:left-2 z-10">
           <Image 
-            src="/logo.png" 
+            src="/logo-ds-heavy.png" 
             alt="Ultimate Oz Universe" 
             width={150}
             height={60} 
-            className="min-w-[70px] w-[8vw] drop-shadow-lg shadow-black/30"
+            className="min-w-[70px] w-[8vw]"
           />
         </Link>
         

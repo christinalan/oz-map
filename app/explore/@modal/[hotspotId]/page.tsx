@@ -43,13 +43,22 @@ export default function HotspotModal({
           }}
           onClick={handleBackdropClick}
         >
-		<div className="animate-in zoom-in-95 duration-300 max-w-[720px] w-full p-4 md:p-8 border border-solid border-gray-600 rounded-xl md:rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75 max-h-[90vh] overflow-y-auto">
+        <div className="animate-in zoom-in-95 duration-300 max-w-[720px] w-full p-4 md:p-8 border border-solid border-gray-600 rounded-xl md:rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75 max-h-[90vh] overflow-y-auto relative">
             <DialogHeading 
               id="modal-title"
               className="text-white text-xl md:text-3xl font-bold text-shadow-xl font-pt-monument drop-shadow-lg"
             >
               {hotspot.title}
             </DialogHeading>
+            <button
+              className="absolute top-4 right-4 md:top-8 md:right-8"
+              onClick={() => router.back() }
+              aria-label="Close modal"
+            >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          </button>
             <video
               className="object-contain max-h-[70vh]"
               controls
