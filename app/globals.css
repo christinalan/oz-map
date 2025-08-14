@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Joan&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -47,7 +47,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --retro-font: 'VT323', monospace;
+  --font-joan: 'Joan', serif;
   --font-pt-monument: 'PP Monument Extended', sans-serif;
 }
 
@@ -74,13 +74,6 @@ body {
   width: 2rem;
   height: 2rem;
 }
-
-/* .retro-text {
-  font-family: var(--retro-font);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-} */
 
 @keyframes flagSwayA {
   0%, 100% {

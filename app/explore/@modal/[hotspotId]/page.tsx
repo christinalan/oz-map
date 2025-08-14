@@ -43,7 +43,7 @@ export default function HotspotModal({
           }}
           onClick={handleBackdropClick}
         >
-        <div className="animate-in zoom-in-95 duration-300 max-w-[720px] w-full p-4 md:p-8 border border-solid border-gray-600 rounded-xl md:rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75 max-h-[90vh] overflow-y-auto relative">
+        <div className="animate-in zoom-in-95 duration-300 max-w-[800px] w-full p-4 md:p-8 border border-solid border-gray-600 rounded-xl md:rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75 max-h-[90vh] overflow-y-auto relative">
             <DialogHeading 
               id="modal-title"
               className="text-white text-2xl md:text-3xl font-bold text-shadow-xl font-pt-monument drop-shadow-lg"
@@ -59,17 +59,18 @@ export default function HotspotModal({
               <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             </button>
-            <div className={ hotspot.isPortrait ? 'md:flex md:gap-8' : 'flex flex-col gap-4'}>
+            <div className={ hotspot.isPortrait ? 'flex md:grid md:grid-cols-2 md:gap-4' : 'flex flex-col gap-4'}>
             <video
               className="object-contain max-h-[70vh] mb-4"
               controls
               preload="metadata"
-			  autoPlay
+              muted
+              autoPlay
             >
               <source src={hotspot.videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <DialogDescription className="font-pt-monument text-sm leading-6 text-white">
+            <DialogDescription className="font-joan text-xl leading-8 text-white">
               {hotspot.description}
             </DialogDescription>
             </div>

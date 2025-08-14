@@ -3,8 +3,38 @@ import { Hotspot } from '../data/hotspots';
 // Factory function to create a marker overlay
 export function createMarkerOverlay(
   hotspot: Hotspot,
-  onMarkerClick: (hotspot: Hotspot) => void
+  onMarkerClick: (hotspot: Hotspot) => void,
+  zoomLevel?: number
 ) {
+  // Calculate adjusted position based on zoom level
+  const getAdjustedPosition = (position: [number, number], zoom?: number): [number, number] => {
+    if (!zoom) return position;
+    
+    // Define zoom-based adjustments
+    // You can customize these values based on your needs
+    const adjustments = {
+      // At high zoom (close up), move markers slightly to avoid overlap
+      high: { x: 0, y: -20 },
+      // At medium zoom, slight adjustment
+      medium: { x: 0, y: -10 },
+      // At low zoom (far out), no adjustment
+      low: { x: 0, y: 0 }
+    };
+    
+    let adjustment;
+    if (zoom >= 5) {
+      adjustment = adjustments.high;
+    } else if (zoom >= 3) {
+      adjustment = adjustments.medium;
+    } else {
+      adjustment = adjustments.low;
+    }
+    
+    return [position[0] + adjustment.x, position[1] + adjustment.y];
+  };
+
+  const adjustedPosition = getAdjustedPosition(hotspot.position, zoomLevel);
+
   // Use an img element for the marker
   const markerElement = document.createElement('img');
   // markerElement.src = '/wavy-flag.svg';
@@ -37,13 +67,18 @@ export function createMarkerOverlay(
   markerElement.addEventListener('focus', handleFocus);
   markerElement.addEventListener('blur', handleBlur);
 
-  // Create pill element for location name
+
+
+  // Container for marker only
+  const container = document.createElement('div');
+  container.appendChild(markerElement);
+  
+  // Create a separate pill that will be positioned relative to the viewport
   const pill = document.createElement('div');
   pill.textContent = hotspot.title;
+  pill.id = `pill-${hotspot.id}`; // Unique identifier
   pill.style.cssText = `
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: fixed;
     background: #fff;
     color: #171717;
     padding: 8px 18px 6px;
@@ -55,40 +90,45 @@ export function createMarkerOverlay(
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
-    z-index: 20000;
+    z-index: 999999;
     white-space: nowrap;
     pointer-events: none;
   `;
-
-  // Container for marker and pill
-  const container = document.createElement('div');
-  // Do NOT set position: absolute, left, or top on the container
-  container.appendChild(pill);
-  container.appendChild(markerElement);
+  
+  // Append pill to body to escape overlay stacking context
+  document.body.appendChild(pill);
 
   // Show/hide pill on hover/focus
-  const showPill = () => { 
+  const showPill = (event: MouseEvent | FocusEvent) => { 
     pill.style.opacity = '1'; 
-    pill.style.zIndex = '1000'; // Bring to front
+    
+    // Position pill relative to the mouse/focus position
+    if (event instanceof MouseEvent) {
+      pill.style.left = `${event.clientX + 32}px`;
+      pill.style.top = `${event.clientY - 32}px`;
+    } else {
+      // For keyboard focus, position relative to marker element
+      const rect = markerElement.getBoundingClientRect();
+      pill.style.left = `${rect.right + 32}px`;
+      pill.style.top = `${rect.top - 32}px`;
+    }
   };
+  
   const hidePill = () => { 
     pill.style.opacity = '0'; 
-    pill.style.zIndex = '20'; // Reset to default
   };
+  
   markerElement.addEventListener('mouseenter', showPill);
   markerElement.addEventListener('mouseleave', hidePill);
   markerElement.addEventListener('focus', showPill);
   markerElement.addEventListener('blur', hidePill);
 
-  // Move pill to the right of the cursor on mousemove
-  markerElement.addEventListener('mousemove', () => {
-    pill.style.top = `-32px`;
-    pill.style.left = `32px`;
-  });
-  // For keyboard focus, place pill to the right of the marker
-  markerElement.addEventListener('focus', () => {
-    pill.style.top = `-32px`;
-    pill.style.left = `32px`;
+  // Update pill position on mousemove
+  markerElement.addEventListener('mousemove', (event) => {
+    if (pill.style.opacity === '1') {
+      pill.style.left = `${event.clientX + 32}px`;
+      pill.style.top = `${event.clientY - 32}px`;
+    }
   });
 
   // Add accessibility attributes
@@ -114,7 +154,11 @@ export function createMarkerOverlay(
       element: container,
       positioning: 'center-center',
     });
-    overlay.setPosition(hotspot.position);
+    overlay.setPosition(adjustedPosition);
+    
+    // Store pill reference on overlay for cleanup
+    (overlay as import('ol/Overlay').default & { pillElement?: HTMLElement }).pillElement = pill;
+    
     // Ensure accessibility attributes are set after overlay creation
     setTimeout(() => {
       if (markerElement.parentNode) {
@@ -131,4 +175,26 @@ export function createMarkerOverlay(
     markerElement.title = hotspot.title;
     return overlay;
   });
+} 
+
+// Function to update overlay position based on zoom level
+export function updateOverlayPosition(
+  overlay: import('ol/Overlay').default,
+  hotspot: Hotspot,
+  zoomLevel?: number
+) {
+  const getAdjustedPosition = (position: [number, number], zoom?: number): [number, number] => {
+    if (!zoom) return position;
+    
+    const adjustments = [
+      0, 500, 200, 0, 0, -100
+    ];
+    
+    const adjustment = adjustments[Math.round(zoom - 1)];
+    
+    return [position[0] + adjustment, position[1]];
+  };
+
+  const adjustedPosition = getAdjustedPosition(hotspot.position, zoomLevel);
+  overlay.setPosition(adjustedPosition);
 } 

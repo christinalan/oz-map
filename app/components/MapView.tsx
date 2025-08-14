@@ -1,10 +1,11 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import 'ol/ol.css';
-import { createMarkerOverlay } from './markerFactory';
+import { createMarkerOverlay, updateOverlayPosition } from './markerFactory';
 import { hotspots, Hotspot } from '../data/hotspots';
 import type Map from 'ol/Map';
+import type Overlay from 'ol/Overlay';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
@@ -30,10 +31,10 @@ export default function MapView({ onMapLoad }: MapViewProps) {
   // Check if modal is open by looking for hotspot ID in pathname
   const isModalOpen = pathname.includes('/explore/') && pathname !== '/explore';
 
-  const handleMarkerClick = (hotspot: Hotspot) => {
+  const handleMarkerClick = useCallback((hotspot: Hotspot) => {
     // Use Next.js router to navigate with URL parameters
     router.push(`/explore/${hotspot.id}`, { scroll: false });
-  };
+  }, [router]);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current || initializedRef.current) return;
@@ -53,22 +54,21 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       { default: TileGrid },
       { default: MouseWheelZoom },
     ]) => {
-      const extent = [0, -imageHeight, imageWidth, 0];
+      const extent = [0, -imageHeight, imageWidth, 0]; // Expand right edge
+      // const extent = [0, -imageHeight, imageWidth, 0];
       const origin = [0, -imageHeight];
       const resolutions = [64, 32, 16, 8, 4, 2];
       const view = new View({
         resolutions,
         extent,
-        // Set initial state explicitly
-        center: [imageWidth / 2, -imageHeight / 2], // Center of image
-        resolution: 8, // Mid-level zoom by default
-        constrainResolution: true,
-        // Align min/max with your resolutions array
-        minZoom: 0, // Matches first resolution (64)
-        maxZoom: resolutions.length - 1 // Matches last resolution (2)
+        center: [imageWidth / 2, -imageHeight / 2],
+        showFullExtent: true,
+        constrainResolution: false,
+        minResolution: 2,
+        maxResolution: 64,
       });
 
-      view.setZoom(4);
+      view.setZoom(4.0);
 
       const map = new Map({
         target: mapRef.current!,
@@ -90,12 +90,13 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         view,
       });
 
-      // map.once('postrender', () => {
+      // map.on('click', () => {
       //   console.log('Current resolution:', view.getResolution());
-      //   console.log('Effective zoom:', view.getZoom());
+      //   console.log('Current zoom:', view.getZoom());
       //   console.log('Resolutions array:', resolutions);
-      //   console.log('Container size:', mapRef.current.offsetWidth, mapRef.current.offsetHeight);
-      //   console.log('Image dimensions:', imageWidth, imageHeight);
+        // console.log('Container size:', mapRef.current.offsetWidth, mapRef.current.offsetHeight);
+        // console.log('Image dimensions:', imageWidth, imageHeight);
+      //   console.log('Zoomable range:', view.getMinZoom(), 'to', view.getMaxZoom());
       // });
       
       map.getInteractions().forEach(interaction => {
@@ -183,19 +184,56 @@ export default function MapView({ onMapLoad }: MapViewProps) {
           setIsMapLoaded(true);
         }
       });
-      Promise.all(
-        hotspots.map(hotspot => 
-          createMarkerOverlay(hotspot, handleMarkerClick)
-        )
-      ).then((overlays) => {
-        overlays.forEach(overlay => map.addOverlay(overlay));
+      // Store overlays and hotspots for position updates
+      const overlayHotspotPairs: Array<{ overlay: Overlay; hotspot: Hotspot }> = [];
+
+      // Create overlays with current zoom level
+      const createOverlays = (zoom?: number) => {
+        return Promise.all(
+          hotspots.map(hotspot => 
+            createMarkerOverlay(hotspot, handleMarkerClick, zoom)
+          )
+        );
+      };
+
+      // Initial overlay creation
+      createOverlays(view.getZoom()).then((overlays) => {
+        overlays.forEach((overlay, index) => {
+          map.addOverlay(overlay);
+          overlayHotspotPairs.push({ overlay, hotspot: hotspots[index] });
+        });
         if (totalCount === 0) {
           setIsMapLoaded(true);
         }
       });
+
+      // Update overlay positions when zoom changes
+      view.on('change:resolution', () => {
+        const currentZoom = view.getZoom();
+        if (currentZoom !== undefined) {
+          // Update existing overlay positions
+          overlayHotspotPairs.forEach(({ overlay, hotspot }) => {
+            updateOverlayPosition(overlay, hotspot, currentZoom);
+          });
+        }
+      });
+
+      // Cleanup function to remove pills when overlays are removed
+      const cleanupPills = () => {
+        overlayHotspotPairs.forEach(({ overlay }) => {
+          const overlayWithPill = overlay as Overlay & { pillElement?: HTMLElement };
+          if (overlayWithPill.pillElement) {
+            overlayWithPill.pillElement.remove();
+          }
+        });
+      };
+
       return () => {
         // Remove keyboard event listener
         document.removeEventListener('keydown', handleKeyDown);
+        
+        // Clean up pills
+        cleanupPills();
         
         if (mapInstanceRef.current) {
           mapInstanceRef.current.setTarget(undefined);
@@ -232,6 +270,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
               width={150}
               height={60} 
               className="min-w-[70px] w-[9vw]"
+              priority
             />
           </div>
         </Link>

@@ -14,6 +14,7 @@ module.exports = {
       },
       fontFamily: {
         'pt-monument': 'var(--font-pt-monument)',
+        'joan': 'var(--font-joan)',
       },
     },
   },
