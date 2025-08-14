@@ -11,8 +11,6 @@ import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
-const minZoom = 4;
-const maxZoom = 4;
 const tileSize = 256;
 
 interface MapViewProps {
@@ -58,7 +56,20 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       const extent = [0, -imageHeight, imageWidth, 0];
       const origin = [0, -imageHeight];
       const resolutions = [64, 32, 16, 8, 4, 2];
-      const view = new View({ resolutions, minZoom, maxZoom, extent });
+      const view = new View({
+        resolutions,
+        extent,
+        // Set initial state explicitly
+        center: [imageWidth / 2, -imageHeight / 2], // Center of image
+        resolution: 8, // Mid-level zoom by default
+        constrainResolution: true,
+        // Align min/max with your resolutions array
+        minZoom: 0, // Matches first resolution (64)
+        maxZoom: resolutions.length - 1 // Matches last resolution (2)
+      });
+
+      view.setZoom(4);
+
       const map = new Map({
         target: mapRef.current!,
         layers: [
@@ -78,6 +89,14 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         ],
         view,
       });
+
+      // map.once('postrender', () => {
+      //   console.log('Current resolution:', view.getResolution());
+      //   console.log('Effective zoom:', view.getZoom());
+      //   console.log('Resolutions array:', resolutions);
+      //   console.log('Container size:', mapRef.current.offsetWidth, mapRef.current.offsetHeight);
+      //   console.log('Image dimensions:', imageWidth, imageHeight);
+      // });
       
       map.getInteractions().forEach(interaction => {
         if (interaction instanceof MouseWheelZoom) {
@@ -154,7 +173,6 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       document.addEventListener('keydown', handleKeyDown);
 
       mapInstanceRef.current = map;
-      view.fit(extent, { size: map.getSize() });
       const tileLayer = map.getLayers().getArray()[0] as import('ol/layer/Tile').default;
       let loadedCount = 0;
       let totalCount = 0;
@@ -202,14 +220,20 @@ export default function MapView({ onMapLoad }: MapViewProps) {
           isModalOpen ? 'blur-sm' : ''
         }`} 
               />
-        <Link href="https://ultimateozuniverse.com" className="absolute p-4 rounded top-1 left-1 md:top-4 md:left-2 z-10">
-          <Image 
-            src="/logo.png" 
-            alt="Ultimate Oz Universe" 
-            width={150}
-            height={60} 
-            className="min-w-[70px] w-[8vw]"
-          />
+        <Link 
+          href="https://ultimateozuniverse.com" 
+          className="absolute p-4 rounded top-1 left-1 md:top-3 md:left-3 z-10"
+        >
+          {/* Wrapper div for the shadow */}
+          <div className="[filter:drop-shadow(0_6px_8px_rgba(0,0,0,1.0))]">
+            <Image 
+              src="/logo.png" 
+              alt="Ultimate Oz Universe" 
+              width={150}
+              height={60} 
+              className="min-w-[70px] w-[9vw]"
+            />
+          </div>
         </Link>
         
         {/* Hotspots Dropdown */}

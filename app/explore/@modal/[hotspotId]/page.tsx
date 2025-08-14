@@ -46,7 +46,7 @@ export default function HotspotModal({
         <div className="animate-in zoom-in-95 duration-300 max-w-[720px] w-full p-4 md:p-8 border border-solid border-gray-600 rounded-xl md:rounded-3xl flex flex-col gap-6 bg-black bg-opacity-75 max-h-[90vh] overflow-y-auto relative">
             <DialogHeading 
               id="modal-title"
-              className="text-white text-xl md:text-3xl font-bold text-shadow-xl font-pt-monument drop-shadow-lg"
+              className="text-white text-2xl md:text-3xl font-bold text-shadow-xl font-pt-monument drop-shadow-lg"
             >
               {hotspot.title}
             </DialogHeading>
@@ -55,23 +55,24 @@ export default function HotspotModal({
               onClick={() => router.back() }
               aria-label="Close modal"
             >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-          </button>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            </button>
+            <div className={ hotspot.isPortrait ? 'md:flex md:gap-8' : 'flex flex-col gap-4'}>
             <video
-              className="object-contain max-h-[70vh]"
+              className="object-contain max-h-[70vh] mb-4"
               controls
               preload="metadata"
-              poster={hotspot.thumbnail}
 			  autoPlay
             >
               <source src={hotspot.videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <DialogDescription className="font-sans text-sm leading-5 text-white">
+            <DialogDescription className="font-pt-monument text-sm leading-6 text-white">
               {hotspot.description}
             </DialogDescription>
+            </div>
           </div>
 
           {/* Return to Oz button positioned at bottom */}

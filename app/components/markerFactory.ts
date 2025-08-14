@@ -10,13 +10,14 @@ export function createMarkerOverlay(
   // markerElement.src = '/wavy-flag.svg';
   markerElement.src = '/wavy-flag.png';
   markerElement.alt = `Visit ${hotspot.title}`;
-  markerElement.width = 32;
-  markerElement.height = 40;
+  markerElement.width = 40;
+  markerElement.height = 52;
   markerElement.style.cssText = `
     display: block;
-    width: 54px;
-    height: 64px;
+    width: 64px;
+    height: 78px;
     cursor: pointer;
+    filter: drop-shadow(4px -4px 10px rgba(0, 0, 0, 1.0));
     transform: translate(-50%, -50%) scale(1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     outline: none;
@@ -50,7 +51,7 @@ export function createMarkerOverlay(
     font-size: 1.25rem;
     font-family: var(--font-pt-monument);
     font-weight: 700;
-    box-shadow: inset 0 0 0 2px #e5e7eb, 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: inset 0 0 0 2px #e5e7eb, 0 2px 8px rgba(0,0,0,1.0);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
@@ -81,13 +82,13 @@ export function createMarkerOverlay(
 
   // Move pill to the right of the cursor on mousemove
   markerElement.addEventListener('mousemove', () => {
-    pill.style.top = `-24px`;
-    pill.style.left = `24px`;
+    pill.style.top = `-32px`;
+    pill.style.left = `32px`;
   });
   // For keyboard focus, place pill to the right of the marker
   markerElement.addEventListener('focus', () => {
-    pill.style.top = `-24px`;
-    pill.style.left = `24px`;
+    pill.style.top = `-32px`;
+    pill.style.left = `32px`;
   });
 
   // Add accessibility attributes

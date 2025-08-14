@@ -4,7 +4,7 @@ export interface Hotspot {
   title: string;
   description: string;
   videoUrl: string;
-  thumbnail?: string;
+  isPortrait?: boolean;
 }
 
 export const hotspots: Hotspot[] = [
@@ -28,6 +28,7 @@ export const hotspots: Hotspot[] = [
     title: "Glinda's Library",
     description: 'Deep within Glinda the Good’s Ruby Castle in Quadling Country, her library serves as a sanctuary for her young acolytes. Ancient books are stacked from floor to ceiling. Glinda stands over her Book of Records. This ancient grimoire chronicles all that is or ever was in Oz.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Oz_Library.mp4',
+    isPortrait: true,
   },
   {
     id: 'poppy-field',
@@ -42,6 +43,7 @@ export const hotspots: Hotspot[] = [
     title: "Yoop Castle",
     description: 'Next to the Rolling Lands, an enormous purple stone castle looms over a barren valley. As a Yookoohoo Witch, Mrs. Yoop chose remote Gillikin Country to practice her forbidden magic. Once this giantess swings open her door and invites you in for supper, be wary, as you may be on the menu.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Yoop%20Castle_WizVO.mp4',
+    isPortrait: true,
   },
   {
     id: 'rolling-lands',
@@ -52,28 +54,28 @@ export const hotspots: Hotspot[] = [
   },
   {
     id: 'mombis-hovel',
-    position: [7357, -4328],
+    position: [7300, -3928],
     title: "Mombi's Hovel",
     description: 'Hidden away, deep in the wild Gillikin Mountains, one of the oldest and most powerful witches, Mombi menaces. Tins of powder, dried plants, and bottles of creatures clutter the shelves. Keep clear of this hovel for anyone who stumbles upon it will never be seen again.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Mombis%20Hut_WizVO.mp4',
   },
   {
     id: 'fiddlestick-forest',
-    position: [8100, -6850],
+    position: [8200, -6850],
     title: "Fiddlestick Forest",
     description: 'The Fiddlestick Forest enchants as the firefly’s dance to the wave of music that sweeps through the dense woods. Journey further to gaze upon the tree’s perform their concerto.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Fiddlestick%20Entrance.mp4',
   },
   {
     id: 'marshland',
-    position: [5658, -5265],
+    position: [5888, -5325],
     title: "Marshland",
     description: 'An eerie fog covers this desolate and treacherous watery bog. The damp air has a rotting smell in this tangle of moss and dank water. Amidst scattered bones, frog goblins erupt from oozing mud, bellowing out ghostly croaks.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Marshland_WizVO.mp4',
   },
   {
     id: 'emerald-city',
-    position: [6889, -6895],
+    position: [7000, -6695],
     title: "Emerald City",
     description: 'At the heart of OZ, the City of Emeralds stands as a beacon of goodness and truth. Magnificent towers and domes dominate the Royal Palace. Within its gates, a diverse community defends the utopian spirit and the unimaginable power of its rightful ruler, Princess Ozma. As night falls, the gemmed spires emit a mesmerizing glow that shines brighter than the stars.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/EmeraldCity_WizVO.mp4',

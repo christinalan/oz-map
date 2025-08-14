@@ -64,8 +64,15 @@ body {
   font-family: var(--font-pt-momument);
 }
 
-.ol-zoom { 
-  display: none;
+.ol-viewport .ol-zoom { 
+  top: unset;
+  left: 1rem;
+  bottom: 1rem;
+}
+
+.ol-zoom .ol-control button {
+  width: 2rem;
+  height: 2rem;
 }
 
 /* .retro-text {
