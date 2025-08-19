@@ -1,6 +1,7 @@
+"use client";
 import HotspotModal from "../@modal/[hotspotId]/page";
 
-export default async function Default({
+export default function Default({
 	params,
 }: {
 	params: Promise<{ hotspotId: string }>;
