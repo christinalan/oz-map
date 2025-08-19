@@ -64,7 +64,6 @@ export default function HotspotModal({
               className="object-contain max-h-[70vh] mb-4"
               controls
               preload="metadata"
-              muted
               autoPlay
             >
               <source src={hotspot.videoUrl} type="video/mp4" />
