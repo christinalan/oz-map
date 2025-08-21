@@ -6,34 +6,43 @@ export function createMarkerOverlay(
   onMarkerClick: (hotspot: Hotspot) => void,
   zoomLevel?: number
 ) {
-  // Calculate adjusted position based on zoom level
-  const getAdjustedPosition = (position: [number, number], zoom?: number): [number, number] => {
-    if (!zoom) return position;
+  // Calculate adjusted position and size based on zoom level
+  const getAdjustedPositionAndSize = (position: [number, number], zoom?: number) => {
+    if (!zoom) return { position: position, width: 64, height: 78, scale: 1 };
     
-    // Define zoom-based adjustments
-    // You can customize these values based on your needs
-    const adjustments = {
-      // At high zoom (close up), move markers slightly to avoid overlap
-      high: { x: 0, y: -20 },
-      // At medium zoom, slight adjustment
-      medium: { x: 0, y: -10 },
-      // At low zoom (far out), no adjustment
-      low: { x: 0, y: 0 }
+    // Position adjustments for each zoom level (x, y)
+    const positionAdjustments = [
+      [0, 0],     // zoom 1
+      [500, 0],   // zoom 2
+      [200, 0],   // zoom 3
+      [0, 0],     // zoom 4
+      [0, 0],     // zoom 5
+      [-100, 0]   // zoom 6+
+    ];
+    
+    // Size adjustments for each zoom level (width, height, scale)
+    const sizeAdjustments = [
+      [36, 44, 0.56],   // zoom 1 - smallest
+      [44, 54, 0.69],   // zoom 2 - interpolated
+      [52, 64, 0.81],   // zoom 3 - interpolated
+      [60, 73, 0.94],   // zoom 4 - interpolated
+      [80, 98, 1.25],   // zoom 5 - interpolated
+      [100, 123, 1.56]  // zoom 6+ - biggest
+    ];
+    
+    const zoomIndex = Math.min(Math.round(zoom) - 1, positionAdjustments.length - 1);
+    const posAdjustment = positionAdjustments[zoomIndex];
+    const sizeAdjustment = sizeAdjustments[zoomIndex];
+    
+    return {
+      position: [position[0] + posAdjustment[0], position[1] + posAdjustment[1]],
+      width: sizeAdjustment[0],
+      height: sizeAdjustment[1],
+      scale: sizeAdjustment[2]
     };
-    
-    let adjustment;
-    if (zoom >= 5) {
-      adjustment = adjustments.high;
-    } else if (zoom >= 3) {
-      adjustment = adjustments.medium;
-    } else {
-      adjustment = adjustments.low;
-    }
-    
-    return [position[0] + adjustment.x, position[1] + adjustment.y];
   };
 
-  const adjustedPosition = getAdjustedPosition(hotspot.position, zoomLevel);
+  const adjusted = getAdjustedPositionAndSize(hotspot.position, zoomLevel);
 
   // Use an img element for the marker
   const markerElement = document.createElement('img');
@@ -44,11 +53,11 @@ export function createMarkerOverlay(
   markerElement.height = 52;
   markerElement.style.cssText = `
     display: block;
-    width: 64px;
-    height: 78px;
+    width: ${adjusted.width}px;
+    height: ${adjusted.height}px;
     cursor: pointer;
     filter: drop-shadow(4px -4px 10px rgba(0, 0, 0, 1.0));
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(${adjusted.scale});
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     outline: none;
     z-index: 10;
@@ -57,10 +66,10 @@ export function createMarkerOverlay(
 
   // Add hover and focus effects
   const handleFocus = () => {
-    markerElement.style.transform = 'translate(-50%, -50%) scale(1.5)';
+    markerElement.style.transform = `translate(-50%, -50%) scale(${adjusted.scale * 1.5})`;
   };
   const handleBlur = () => {
-    markerElement.style.transform = 'translate(-50%, -50%) scale(1)';
+    markerElement.style.transform = `translate(-50%, -50%) scale(${adjusted.scale})`;
   };
   markerElement.addEventListener('mouseenter', handleFocus);
   markerElement.addEventListener('mouseleave', handleBlur);
@@ -154,7 +163,7 @@ export function createMarkerOverlay(
       element: container,
       positioning: 'center-center',
     });
-    overlay.setPosition(adjustedPosition);
+    overlay.setPosition(adjusted.position);
     
     // Store pill reference on overlay for cleanup
     (overlay as import('ol/Overlay').default & { pillElement?: HTMLElement }).pillElement = pill;
@@ -177,24 +186,59 @@ export function createMarkerOverlay(
   });
 } 
 
-// Function to update overlay position based on zoom level
+// Function to update overlay position and size based on zoom level
 export function updateOverlayPosition(
   overlay: import('ol/Overlay').default,
   hotspot: Hotspot,
   zoomLevel?: number
 ) {
-  const getAdjustedPosition = (position: [number, number], zoom?: number): [number, number] => {
-    if (!zoom) return position;
+  const getAdjustedPositionAndSize = (position: [number, number], zoom?: number) => {
+    if (!zoom) return { position: position, width: 64, height: 78, scale: 1 };
     
-    const adjustments = [
-      0, 500, 200, 0, 0, -100
+    // Position adjustments for each zoom level (x, y)
+    const positionAdjustments = [
+      [0, 0],     // zoom 1
+      [500, 0],   // zoom 2
+      [200, 0],   // zoom 3
+      [0, 0],     // zoom 4
+      [0, 0],     // zoom 5
+      [-100, 0]   // zoom 6+
     ];
     
-    const adjustment = adjustments[Math.round(zoom - 1)];
+    // Size adjustments for each zoom level (width, height, scale)
+    const sizeAdjustments = [
+      [24, 32, 0.40],   // zoom 1 - smallest
+      [34, 42, 0.50],   // zoom 2 - interpolated
+      [52, 64, 0.81],   // zoom 3 - interpolated
+      [60, 73, 0.94],   // zoom 4 - interpolated
+      [80, 98, 1.25],   // zoom 5 - interpolated
+      [100, 123, 1.56]  // zoom 6+ - biggest
+    ];
     
-    return [position[0] + adjustment, position[1]];
+    const zoomIndex = Math.min(Math.round(zoom) - 1, positionAdjustments.length - 1);
+    const posAdjustment = positionAdjustments[zoomIndex];
+    const sizeAdjustment = sizeAdjustments[zoomIndex];
+    
+    return {
+      position: [position[0] + posAdjustment[0], position[1] + posAdjustment[1]],
+      width: sizeAdjustment[0],
+      height: sizeAdjustment[1],
+      scale: sizeAdjustment[2]
+    };
   };
 
-  const adjustedPosition = getAdjustedPosition(hotspot.position, zoomLevel);
-  overlay.setPosition(adjustedPosition);
+  const adjusted = getAdjustedPositionAndSize(hotspot.position, zoomLevel);
+  
+  overlay.setPosition(adjusted.position);
+  
+  // Update the marker size if the overlay element exists
+  const element = overlay.getElement();
+  if (element) {
+    const markerElement = element.querySelector('img') as HTMLImageElement;
+    if (markerElement) {
+      markerElement.style.width = `${adjusted.width}px`;
+      markerElement.style.height = `${adjusted.height}px`;
+      markerElement.style.transform = `translate(-50%, -50%) scale(${adjusted.scale})`;
+    }
+  }
 } 

@@ -36,6 +36,17 @@ export default function MapView({ onMapLoad }: MapViewProps) {
     router.push(`/explore/${hotspot.id}`, { scroll: false });
   }, [router]);
 
+  const centerMapOnHotspot = useCallback((hotspot: Hotspot) => {
+    if (mapInstanceRef.current) {
+      const view = mapInstanceRef.current.getView();
+      view.animate({
+        center: hotspot.position,
+        duration: 1000, // 1 second animation
+        zoom: 5, // Set a good zoom level for viewing the hotspot
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current || initializedRef.current) return;
     initializedRef.current = true;
@@ -286,7 +297,12 @@ export default function MapView({ onMapLoad }: MapViewProps) {
                 <MenuItem
                   key={hotspot.id}
                   className="block w-full text-left px-4 py-3 text-white hover:bg-white hover:bg-opacity-20 rounded-xl transition-colors duration-200 font-pt-monument text-sm"
-                  onClick={() => router.push(`/explore/${hotspot.id}`, { scroll: false })}
+                  onClick={() => {
+                    centerMapOnHotspot(hotspot);
+                    setTimeout(() => {
+                      router.push(`/explore/${hotspot.id}`, { scroll: false });
+                    }, 1000);
+                  }}
                 >
                   <div className="font-bold">{hotspot.title}</div>
                 </MenuItem>
