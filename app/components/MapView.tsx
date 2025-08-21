@@ -42,7 +42,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
       view.animate({
         center: hotspot.position,
         duration: 1000, // 1 second animation
-        zoom: 5, // Set a good zoom level for viewing the hotspot
+        zoom: 4, // Set a good zoom level for viewing the hotspot
       });
     }
   }, []);
@@ -100,15 +100,6 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         ],
         view,
       });
-
-      // map.on('click', () => {
-      //   console.log('Current resolution:', view.getResolution());
-      //   console.log('Current zoom:', view.getZoom());
-      //   console.log('Resolutions array:', resolutions);
-        // console.log('Container size:', mapRef.current.offsetWidth, mapRef.current.offsetHeight);
-        // console.log('Image dimensions:', imageWidth, imageHeight);
-      //   console.log('Zoomable range:', view.getMinZoom(), 'to', view.getMaxZoom());
-      // });
       
       map.getInteractions().forEach(interaction => {
         if (interaction instanceof MouseWheelZoom) {

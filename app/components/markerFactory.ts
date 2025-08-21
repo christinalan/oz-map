@@ -58,7 +58,7 @@ export function createMarkerOverlay(
     cursor: pointer;
     filter: drop-shadow(4px -4px 10px rgba(0, 0, 0, 1.0));
     transform: translate(-50%, -50%) scale(${adjusted.scale});
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
     outline: none;
     z-index: 10;
     animation: ${hotspot.position[0] % 2 === 0 ? 'flagSwayA' : 'flagSwayB' } 3s ease-in-out infinite;
