@@ -59,7 +59,7 @@ export default function HotspotModal({
               <path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             </button>
-            <div className={ hotspot.isPortrait ? 'flex md:grid md:grid-cols-2 md:gap-4' : 'flex flex-col gap-4'}>
+            <div className={ hotspot.isPortrait ? 'flex flex-col md:grid md:grid-cols-2 md:gap-4' : 'flex flex-col gap-4'}>
             <video
               className="object-contain max-h-[70vh] mb-4"
               controls
@@ -77,7 +77,7 @@ export default function HotspotModal({
 
           {/* Return to Oz button positioned at bottom */}
           <button
-            className="absolute bottom-4 right-4 z-10 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-80 rounded-lg font-pt-monument px-4 py-2"
+            className="absolute hidden md:block bottom-2 left-2 md:bottom-4 md:left-4 z-10 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-80 rounded-lg font-pt-monument px-4 py-2"
             aria-label="Return to Oz"
 			onClick={() => router.back()}
           >
