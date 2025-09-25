@@ -278,16 +278,16 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         </Link>
         
         {/* Hotspots Dropdown */}
-        { ! isModalOpen && <div className="absolute bottom-4 left-2 md:left-4 z-10 mt-2">
+        { ! isModalOpen && <div className="absolute bottom-4 left-2 md:left-4 z-50 mt-2">
           <MenuProvider>
-            <MenuButton className="text-white px-4 py-2 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument">
+            <MenuButton className="text-white px-4 py-3 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument text-sm md:text-base min-h-[44px] min-w-[120px] touch-manipulation">
               Explore Locations
             </MenuButton>
-            <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[60vh] overflow-y-auto mt-2 mb-2">
+            <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[60vh] overflow-y-auto mt-2 mb-2 z-50">
               {hotspots.map((hotspot) => (
                 <MenuItem
                   key={hotspot.id}
-                  className="block w-full text-left px-4 py-3 text-white hover:bg-white hover:bg-opacity-20 rounded-xl transition-colors duration-200 font-pt-monument text-sm"
+                  className="block w-full text-left px-4 py-3 text-white hover:bg-white hover:bg-opacity-20 rounded-xl transition-colors duration-200 font-pt-monument text-sm min-h-[44px] touch-manipulation"
                   onClick={() => {
                     centerMapOnHotspot(hotspot);
                     setTimeout(() => {
