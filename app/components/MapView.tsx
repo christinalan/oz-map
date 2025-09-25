@@ -9,6 +9,7 @@ import type Overlay from 'ol/Overlay';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
+import { useViewportHeight } from '../hooks/useViewportHeight';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
@@ -27,6 +28,9 @@ export default function MapView({ onMapLoad }: MapViewProps) {
 
   // Loading state
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+  // Viewport height handling for mobile browser UI
+  const { vh, safeAreaBottom } = useViewportHeight();
 
   // Check if modal is open by looking for hotspot ID in pathname
   const isModalOpen = pathname.includes('/explore/') && pathname !== '/explore';
@@ -253,13 +257,19 @@ export default function MapView({ onMapLoad }: MapViewProps) {
   }, [isMapLoaded, onMapLoad]);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+    <div 
+      className="w-full relative transition-all duration-300"
+      style={{ 
+        width: '100vw', 
+        height: 'calc(var(--vh, 1vh) * 100)'
+      }}
+    >
       <div 
         ref={mapRef} 
         className={`w-full h-full relative transition-all duration-300 custom-cursor ${
           isModalOpen ? 'blur-sm' : ''
         }`} 
-              />
+      />
         <Link 
           href="https://ultimateozuniverse.com" 
           className="absolute p-4 rounded top-1 left-1 md:top-3 md:left-3 z-10"
@@ -278,7 +288,12 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         </Link>
         
         {/* Hotspots Dropdown */}
-        { ! isModalOpen && <div className="absolute bottom-4 left-2 md:left-4 z-50 mt-2">
+        { ! isModalOpen && <div 
+          className="absolute left-2 md:left-4 z-50 mt-2"
+          style={{
+            bottom: safeAreaBottom > 0 ? `${16 + safeAreaBottom}px` : '1rem'
+          }}
+        >
           <MenuProvider>
             <MenuButton className="text-white px-4 py-3 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument text-sm md:text-base min-h-[44px] min-w-[120px] touch-manipulation">
               Explore Locations

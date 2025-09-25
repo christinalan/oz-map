@@ -68,7 +68,7 @@ body {
   top: unset;
   right: 1rem;
   left: unset;
-  bottom: 1rem;
+  bottom: calc(1rem + var(--safe-area-inset-bottom));
   box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25), 0 1.5px 6px 0 rgba(60,154,120,0.18);
   background: rgba(255,255,255,0.85);
 }
@@ -163,4 +163,25 @@ body {
 
 .custom-cursor {
   cursor: url('/cursor.svg') 31 31, auto;
+}
+
+/* Mobile browser UI handling */
+:root {
+  --vh: 1vh;
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Ensure full viewport height accounting for browser UI */
+.full-vh {
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Safe positioning for bottom elements */
+.safe-bottom {
+  bottom: calc(1rem + var(--safe-area-inset-bottom));
+}
+
+/* Alternative positioning that adapts to browser UI */
+.adaptive-bottom {
+  bottom: max(1rem, calc(1rem + var(--safe-area-inset-bottom)));
 }
