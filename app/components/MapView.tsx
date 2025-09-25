@@ -30,7 +30,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   // Viewport height handling for mobile browser UI
-  const { vh, safeAreaBottom } = useViewportHeight();
+  const { safeAreaBottom } = useViewportHeight();
 
   // Check if modal is open by looking for hotspot ID in pathname
   const isModalOpen = pathname.includes('/explore/') && pathname !== '/explore';
