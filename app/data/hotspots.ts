@@ -63,7 +63,7 @@ export const hotspots: Hotspot[] = [
     id: 'fiddlestick-forest',
     position: [8200, -6850],
     title: "Fiddlestick Forest",
-    description: 'The Fiddlestick Forest enchants as the firefly’s dance to the wave of music that sweeps through the dense woods. Journey further to gaze upon the tree’s perform their concerto.',
+    description: 'The Fiddlestick Forest enchants as the fireflies dance to the wave of music that sweeps through the dense woods. Journey further to gaze upon the tree’s perform their concerto.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Updated%20Videos%20819/Fiddlestick%20Entrance.mp4',
   },
   {
