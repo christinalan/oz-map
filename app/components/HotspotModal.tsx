@@ -2,8 +2,8 @@
 import { use } from "react";
 import { useRouter, usePathname } from "next/navigation.js";
 import { Dialog, DialogDescription, DialogHeading } from "@ariakit/react";
-import { hotspots } from "../../data/hotspots";
-import MapViewClient from "../../components/MapViewClient";
+import { hotspots } from "../data/hotspots";
+import MapViewClient from "./MapViewClient";
 
 export default function HotspotModal({
 	params,

@@ -1,5 +1,5 @@
 import { hotspots } from "../../data/hotspots";
-import HotspotModal from "./HotspotModal";
+import HotspotModal from "@/app/components/HotspotModal";
 
 // Generate static params for all hotspot routes
 export async function generateStaticParams() {
