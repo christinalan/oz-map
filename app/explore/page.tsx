@@ -1,4 +1,4 @@
 export default function ExplorePage() {
-  // Map is now rendered in the layout
+  // Map is rendered in layout
   return null;
 } 

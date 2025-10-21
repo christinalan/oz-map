@@ -1,4 +1,5 @@
 import { hotspots } from "../../data/hotspots";
+import HotspotModal from "./HotspotModal";
 
 // Generate static params for all hotspot routes
 export async function generateStaticParams() {
@@ -7,8 +8,10 @@ export async function generateStaticParams() {
 	}));
 }
 
-export default function HotspotPage() {
-	// This page exists only for static generation
-	// The actual content is handled by the layout and parallel routes
-	return null;
+export default function HotspotPage({
+	params,
+}: {
+	params: Promise<{ hotspotId: string }>;
+}) {
+	return <HotspotModal params={params} />;
 }
