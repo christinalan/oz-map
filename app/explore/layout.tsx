@@ -1,3 +1,5 @@
+import MapViewClient from '../components/MapViewClient';
+
 export default function ExploreLayout({
   children,
   modal,
@@ -7,6 +9,7 @@ export default function ExploreLayout({
 }) {
   return (
     <>
+      <MapViewClient />
       {children}
       {modal}
     </>

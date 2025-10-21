@@ -1,6 +1,6 @@
 "use client";
 import { use } from "react";
-import { useRouter } from "next/navigation.js";
+import { useRouter, usePathname } from "next/navigation.js";
 import { Dialog, DialogDescription, DialogHeading } from "@ariakit/react";
 import { hotspots } from "../../../data/hotspots";
 import MapViewClient from "@/app/components/MapViewClient";
@@ -11,7 +11,13 @@ export default function HotspotModal({
 	params: Promise<{ hotspotId: string }>;
 }) {
 	const router = useRouter();
+	const pathname = usePathname();
 	const { hotspotId } = use(params);
+	
+	// Only show modal if we're on a specific hotspot route
+	if (pathname === '/explore') {
+		return null;
+	}
 	
 	// Find the hotspot data
 	const hotspot = hotspots.find(h => h.id === hotspotId);
@@ -20,17 +26,22 @@ export default function HotspotModal({
 		return <MapViewClient/>;
 	}
 
+	// Handle modal close - navigate to explore page instead of going back
+	const handleClose = () => {
+		router.push('/explore');
+	};
+
 	const handleBackdropClick = (event: React.MouseEvent) => {
 		// Only close if clicking on the backdrop (not the modal content)
 		if (event.target === event.currentTarget) {
-			router.back();
+			handleClose();
 		}
 	};
 
 	return (
        <Dialog
           open
-          onClose={() => router.back()}
+          onClose={handleClose}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-55 animate-in fade-in duration-300 p-2 overflow-y-auto"
           aria-labelledby="modal-title"
           aria-describedby="modal-description"
@@ -52,7 +63,7 @@ export default function HotspotModal({
             </DialogHeading>
             <button
               className="absolute top-4 right-4 md:top-8 md:right-8"
-              onClick={() => router.back() }
+              onClick={handleClose}
               aria-label="Close modal"
             >
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +90,7 @@ export default function HotspotModal({
           <button
             className="absolute bottom-4 right-4 z-10 text-white hover:text-gray-300 transition-colors bg-black bg-opacity-80 rounded-lg font-pt-monument px-4 py-2"
             aria-label="Return to Oz"
-			onClick={() => router.back()}
+			onClick={handleClose}
           >
             Return to Oz
           </button>
