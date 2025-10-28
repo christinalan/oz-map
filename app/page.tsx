@@ -30,7 +30,7 @@ export default function HomePage() {
             }}
           />
           {/* Text overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-end md:justify-center mb-16 md:mb-auto animate-in fade-in " style={{ zIndex: 2 }}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center animate-in fade-in " style={{ zIndex: 2 }}>
             <div className="py-16 p-6 md:p-12">
               <h1 className="text-white text-4xl md:text-5xl font-bold font-pt-monument transition-all duration-300 mb-8 text-center text-shadow-xl drop-shadow-lg">
                 The Lost <br className="block xl:hidden"/>Lands of Oz
@@ -44,7 +44,7 @@ export default function HomePage() {
                       <span>Traverse the map using touch, mouse, or arrow keys</span>
                     </div>
                     <div className="flex items-start space-x-3 text-sm">
-                      <span className="text-primary font-bold">2.</span>
+                      <span className="text-primary font-bold ">2.</span>
                       <span>Zoom in and out using controls near the bottom left corner of the map</span>
                     </div>
                     <div className="flex items-start space-x-3 text-sm">
@@ -55,7 +55,7 @@ export default function HomePage() {
                 </div>
                   <button
                     onClick={handleEnterOz}
-                    className="px-6 py-2 pt-3 text-lg shadow-2xl hover:scale-105 transition-all font-pt-monument bg-primary"
+                    className="px-6 py-2 pt-3 text-lg shadow-2xl hover:scale-105 transition-all font-pt-monument bg-primary text-white"
                     style={{ boxShadow: '0 8px 32px 16px rgba(60,154,120,0.45)' }}
                   >
                   Enter

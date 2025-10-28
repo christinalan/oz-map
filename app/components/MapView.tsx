@@ -257,7 +257,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
   }, [isMapLoaded, onMapLoad]);
 
   return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+    <div className="mobile-safe-height" style={{ width: '100vw', position: 'relative' }}>
       <div 
         ref={mapRef} 
         className={`w-full h-full transition-all duration-300 custom-cursor ${
@@ -282,7 +282,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         </Link>
         
         {/* Hotspots Dropdown */}
-        { ! isModalOpen && <div className="absolute bottom-4 right-2 md:right-4 z-10 mt-2">
+        { ! isModalOpen && <div className="absolute mobile-bottom-safe right-2 md:right-4 z-10 mt-2">
           <div className="flex items-center space-x-2">
             {/* Info Button */}
             <button

@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @font-face {
   font-family: 'PP Monument Extended';
   src: url('/PP Monument Extended/PPMonumentExtended-Regular.woff2') format('woff2'),
@@ -161,4 +160,33 @@ body {
 
 .custom-cursor {
   cursor: url('/cursor.svg') 31 31, auto;
+}
+
+/* Mobile browser UI handling */
+@supports (height: 100dvh) {
+  .mobile-safe-height {
+    height: 100dvh;
+  }
+}
+
+@supports not (height: 100dvh) {
+  .mobile-safe-height {
+    height: 100vh;
+  }
+}
+
+/* Ensure bottom elements stay above mobile browser UI */
+.mobile-bottom-safe {
+  /* Fallback for browsers that don't support env() */
+  bottom: 1rem;
+  /* Use safe area insets when available */
+  bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+/* Handle mobile browser address bar changes */
+@media (max-width: 768px) {
+  .mobile-bottom-safe {
+    bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+    transition: bottom 0.3s ease;
+  }
 }
