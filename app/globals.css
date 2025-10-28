@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @font-face {
   font-family: 'PP Monument Extended';
   src: url('/PP Monument Extended/PPMonumentExtended-Regular.woff2') format('woff2'),
@@ -47,6 +48,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #3C9A78;
   --font-joan: 'Joan', serif;
   --font-pt-monument: 'PP Monument Extended', sans-serif;
 }

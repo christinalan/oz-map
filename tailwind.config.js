@@ -16,6 +16,12 @@ module.exports = {
         'pt-monument': 'var(--font-pt-monument)',
         'joan': 'var(--font-joan)',
       },
+      colors: {
+        'primary': 'var(--primary)',
+      },
+      backgroundColor: {
+        'primary': 'var(--primary)',
+      },
     },
   },
   plugins: [],
