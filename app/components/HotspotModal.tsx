@@ -72,7 +72,7 @@ export default function HotspotModal({
 						<path d="M18 6L6 18M6 6L18 18" stroke="white" strokeWidth="2" strokeLinecap="round"/>
 					</svg>
 					</button>
-					<div className={ hotspot.isPortrait ? 'flex md:grid md:grid-cols-2 md:gap-4' : 'flex flex-col gap-4'}>
+					<div className={ hotspot.isPortrait ? 'flex flex-col md:grid md:grid-cols-2 md:gap-4' : 'flex flex-col gap-4'}>
 					<video
 						className="object-contain max-h-[70vh] mb-4"
 						controls
