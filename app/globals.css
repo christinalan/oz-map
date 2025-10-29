@@ -71,13 +71,38 @@ body {
   left: 1rem;
   bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
   box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25), 0 1.5px 6px 0 rgba(60,154,120,0.18);
-  background: rgba(255,255,255,0.85);
+  background: transparent;  
+  padding: 0;       
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
 }
 
 .ol-viewport .ol-control button {
-  width: 2.2rem;
-  height: 2.2rem;
-  font-size: 1.75rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  font-size: 2rem;
+  background-color: rgba(0,0,0,0.8) !important;  /* 80% black */
+  color: #fff !important;                         /* white text */
+  margin: 0;
+  line-height: 1;   
+  border: 0;                                      /* no divider */
+  border-radius: 0;                               
+}
+
+/* Ensure mobile ignores any desktop ordering */
+.ol-viewport .ol-zoom .ol-zoom-in,
+.ol-viewport .ol-zoom .ol-zoom-out {
+  order: 0;
+}
+
+
+/* Hover/focus states */
+.ol-viewport .ol-control button:hover,
+.ol-viewport .ol-control button:focus {
+  background-color: rgba(0,0,0,0.9) !important;
+  color: #fff;
 }
 
 @keyframes flagSwayA {
@@ -193,4 +218,13 @@ body {
     bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
     transition: bottom 0.3s ease;
   }
+}
+
+/* Desktop: row layout, put + on the right */
+@media (min-width: 768px) {
+  .ol-viewport .ol-zoom { 
+    flex-direction: row;
+  }
+  .ol-viewport .ol-zoom .ol-zoom-in { order: 2; }  /* + on the right */
+  .ol-viewport .ol-zoom .ol-zoom-out { order: 1; } /* − on the left */
 }

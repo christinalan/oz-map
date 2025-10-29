@@ -32,7 +32,7 @@ export default function HomePage() {
           {/* Text overlay */}
           <div className="absolute inset-0 flex flex-col items-center justify-center animate-in fade-in " style={{ zIndex: 2 }}>
             <div className="py-16 p-6 md:p-12">
-              <h1 className="text-white text-4xl md:text-5xl font-bold font-pt-monument transition-all duration-300 mb-8 text-center text-shadow-xl drop-shadow-lg">
+              <h1 className="text-white text-4xl md:text-5xl font-bold font-pt-monument transition-all duration-300 mb-8 text-center text-shadow-2xl drop-shadow-2xl">
                 The Lost <br className="block xl:hidden"/>Lands of Oz
               </h1>
               <div className="bg-black/60 backdrop-blur-sm rounded-2xl p-8 max-w-lg mx-auto">
@@ -41,7 +41,7 @@ export default function HomePage() {
                   <div className="space-y-3 text-white">
                     <div className="flex items-start space-x-3 text-sm">
                       <span className="text-primary font-bold">1.</span>
-                      <span>Traverse the map using touch, mouse, or arrow keys</span>
+                      <span>Explore the map using touch, mouse, or arrow keys</span>
                     </div>
                     <div className="flex items-start space-x-3 text-sm">
                       <span className="text-primary font-bold ">2.</span>

@@ -67,7 +67,7 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
           <div className="space-y-2 text-white">
             <div className="flex items-start space-x-3">
               <span className="text-primary text-sm">1.</span>
-              <span className="text-sm">Traverse the map using touch, mouse, or arrow keys</span>
+              <span className="text-sm">Explore the map using touch, mouse, or arrow keys</span>
             </div>
             <div className="flex items-start space-x-3">
               <span className="text-primary text-sm">2.</span>
