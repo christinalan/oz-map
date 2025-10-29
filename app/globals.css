@@ -47,6 +47,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #3C9A78;
   --font-joan: 'Joan', serif;
   --font-pt-monument: 'PP Monument Extended', sans-serif;
 }
@@ -66,9 +67,9 @@ body {
 
 .ol-viewport .ol-zoom { 
   top: unset;
-  right: 1rem;
-  left: unset;
-  bottom: calc(1rem + var(--safe-area-inset-bottom));
+  right: unset;
+  left: 1rem;
+  bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
   box-shadow: 0 4px 16px 0 rgba(0,0,0,0.25), 0 1.5px 6px 0 rgba(60,154,120,0.18);
   background: rgba(255,255,255,0.85);
 }
@@ -166,22 +167,30 @@ body {
 }
 
 /* Mobile browser UI handling */
-:root {
-  --vh: 1vh;
-  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+@supports (height: 100dvh) {
+  .mobile-safe-height {
+    height: 100dvh;
+  }
 }
 
-/* Ensure full viewport height accounting for browser UI */
-.full-vh {
-  height: calc(var(--vh, 1vh) * 100);
+@supports not (height: 100dvh) {
+  .mobile-safe-height {
+    height: 100vh;
+  }
 }
 
-/* Safe positioning for bottom elements */
-.safe-bottom {
-  bottom: calc(1rem + var(--safe-area-inset-bottom));
+/* Ensure bottom elements stay above mobile browser UI */
+.mobile-bottom-safe {
+  /* Fallback for browsers that don't support env() */
+  bottom: 1rem;
+  /* Use safe area insets when available */
+  bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
 }
 
-/* Alternative positioning that adapts to browser UI */
-.adaptive-bottom {
-  bottom: max(1rem, calc(1rem + var(--safe-area-inset-bottom)));
+/* Handle mobile browser address bar changes */
+@media (max-width: 768px) {
+  .mobile-bottom-safe {
+    bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+    transition: bottom 0.3s ease;
+  }
 }

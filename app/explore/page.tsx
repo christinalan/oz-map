@@ -1,5 +1,4 @@
-import MapViewClient from '../components/MapViewClient';
-
 export default function ExplorePage() {
-  return <MapViewClient />;
+  // Map is rendered in layout
+  return null;
 } 

@@ -5,3 +5,8 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/explore/*"
+  to = "/explore"
+  status = 200

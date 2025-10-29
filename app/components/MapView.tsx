@@ -9,7 +9,7 @@ import type Overlay from 'ol/Overlay';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
-import { useViewportHeight } from '../hooks/useViewportHeight';
+import InfoModal from './InfoModal';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
@@ -28,9 +28,9 @@ export default function MapView({ onMapLoad }: MapViewProps) {
 
   // Loading state
   const [isMapLoaded, setIsMapLoaded] = useState(false);
-
-  // Viewport height handling for mobile browser UI
-  const { safeAreaBottom } = useViewportHeight();
+  
+  // Info modal state
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   // Check if modal is open by looking for hotspot ID in pathname
   const isModalOpen = pathname.includes('/explore/') && pathname !== '/explore';
@@ -257,13 +257,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
   }, [isMapLoaded, onMapLoad]);
 
   return (
-    <div 
-      className="w-full relative transition-all duration-300"
-      style={{ 
-        width: '100vw', 
-        height: 'calc(var(--vh, 1vh) * 100)'
-      }}
-    >
+    <div className="mobile-safe-height" style={{ width: '100vw', position: 'relative' }}>
       <div 
         ref={mapRef} 
         className={`w-full h-full relative transition-all duration-300 custom-cursor ${
@@ -288,17 +282,28 @@ export default function MapView({ onMapLoad }: MapViewProps) {
         </Link>
         
         {/* Hotspots Dropdown */}
-        { ! isModalOpen && <div 
-          className="absolute left-2 md:left-4 z-50 mt-2"
-          style={{
-            bottom: safeAreaBottom > 0 ? `${16 + safeAreaBottom}px` : '1rem'
-          }}
-        >
-          <MenuProvider>
-            <MenuButton className="text-white px-4 py-3 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument text-sm md:text-base min-h-[44px] min-w-[120px] touch-manipulation">
-              Explore Locations
-            </MenuButton>
-            <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[60vh] overflow-y-auto mt-2 mb-2 z-50">
+        { ! isModalOpen && <div className="absolute mobile-bottom-safe right-2 md:right-4 z-10 mt-2">
+          <div className="flex items-center space-x-2">
+            {/* Info Button */}
+            <button
+              onClick={() => setIsInfoModalOpen(true)}
+              className="opacity-90 hover:opacity-100 transition-all duration-200"
+              aria-label="Show navigation instructions"
+            >
+                <Image
+                  src="/info.svg"
+                  alt="Info"
+                  width={46}
+                  height={46}
+                  className="rounded-full"
+                />
+            </button>
+            
+            <MenuProvider>
+              <MenuButton className="text-white px-4 py-2 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument">
+                Explore Locations
+              </MenuButton>
+            <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[60vh] overflow-y-auto mt-2 mb-2">
               {hotspots.map((hotspot) => (
                 <MenuItem
                   key={hotspot.id}
@@ -315,7 +320,14 @@ export default function MapView({ onMapLoad }: MapViewProps) {
               ))}
             </Menu>
           </MenuProvider>
+          </div>
         </div> }
+        
+        {/* Info Modal */}
+        <InfoModal 
+          isOpen={isInfoModalOpen} 
+          onClose={() => setIsInfoModalOpen(false)} 
+        />
       </div>
     );
 }
