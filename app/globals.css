@@ -85,10 +85,12 @@ body {
   font-size: 2rem;
   background-color: rgba(0,0,0,0.8) !important;  /* 80% black */
   color: #fff !important;                         /* white text */
-  margin: 0;
-  line-height: 1;   
-  border: 0;                                      /* no divider */
-  border-radius: 0;                               
+  margin: 0;                                 /* no divider */
+  border-radius: 0;     
+  display: inline-flex;          /* or display:flex */
+  align-items: center;           /* vertical center */
+  justify-content: center;   
+  padding-bottom: 2px;                       
 }
 
 /* Ensure mobile ignores any desktop ordering */
