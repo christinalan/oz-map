@@ -54,14 +54,14 @@ export const hotspots: Hotspot[] = [
   },
   {
     id: 'mombis-hovel',
-    position: [7300, -3928],
+    position: [7450, -4275],
     title: "Mombi's Hovel",
     description: 'Hidden away, deep in the wild Gillikin Mountains, one of the oldest and most powerful witches, Mombi menaces. Tins of powder, dried plants, and bottles of creatures clutter the shelves. Keep clear of this hovel for anyone who stumbles upon it will never be seen again.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Updated%20Videos%20819/Mombis%20Hut.mp4',
   },
   {
     id: 'fiddlestick-forest',
-    position: [8200, -6850],
+    position: [8250, -6900],
     title: "Fiddlestick Forest",
     description: 'The Fiddlestick Forest enchants as the fireflies dance to the wave of music that sweeps through the dense woods. Journey further to gaze upon the tree’s perform their concerto.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Updated%20Videos%20819/Fiddlestick%20Entrance.mp4',
@@ -80,4 +80,19 @@ export const hotspots: Hotspot[] = [
     description: 'At the heart of OZ, the City of Emeralds stands as a beacon of goodness and truth. Magnificent towers and domes dominate the Royal Palace. Within its gates, a diverse community defends the utopian spirit and the unimaginable power of its rightful ruler, Princess Ozma. As night falls, the gemmed spires emit a mesmerizing glow that shines brighter than the stars.',
     videoUrl: 'https://ultimate-oz.b-cdn.net/Updated%20Videos%20819/Emerald%20City.mp4',
   },
+  {
+    id: 'lake-orizon',
+    position: [12180, -2980],
+    title: "Lake Orizon",
+    description: 'Encircled by the Munchkin Mountains, Lake Orizon reveals its sparkling azure waters. The steep terrain, punctuated by chasms, keeps the lake and the gem-encrusted Ozure Isles isolated. The beaches are strewn with opals, turquoise, and pearls.',
+    videoUrl: 'https://ultimate-oz.b-cdn.net/Updated%20Videos%20819/Lake%20Orizon.mp4',
+  },
+  {
+    id: 'gillikin-mountains',
+    position: [7500, -3450],
+    title: "Gillikin Mountains",
+    description: 'The Gillikin Mountains seal off the evildoings inside Mombi’s hut. Through ages of practice, the evil witch easily roams through the maze of passages on her one-eyed broom. Purple violets and heather swaying along the steep ascent, leading to the lofty homes of the Uplanders.',
+    videoUrl: 'https://ultimate-oz.b-cdn.net/Updated%20Videos%20819/Gilikin%20Mountains.mp4'
+  },
+
 ]; 
