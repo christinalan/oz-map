@@ -10,6 +10,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
 import InfoModal from './InfoModal';
+// import { ScrollHintMenu } from './ScrollHintMenu';
 
 const imageWidth = 14519;
 const imageHeight = 13463;
@@ -303,22 +304,24 @@ export default function MapView({ onMapLoad }: MapViewProps) {
               <MenuButton className="text-white px-4 py-2 rounded-lg bg-black bg-opacity-80 hover:bg-opacity-80 transition-all duration-200 font-pt-monument">
                 Explore Locations
               </MenuButton>
-            <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[60vh] overflow-y-auto mt-2 mb-2">
-              {hotspots.map((hotspot) => (
-                <MenuItem
-                  key={hotspot.id}
-                  className="block w-full text-left px-4 py-3 text-white hover:bg-white hover:bg-opacity-20 rounded-xl transition-colors duration-200 font-pt-monument text-sm min-h-[44px] touch-manipulation"
-                  onClick={() => {
-                    centerMapOnHotspot(hotspot);
-                    setTimeout(() => {
-                      router.push(`/explore/${hotspot.id}`, { scroll: false });
-                    }, 1000);
-                  }}
-                >
-                  <div className="font-bold">{hotspot.title}</div>
-                </MenuItem>
-              ))}
-            </Menu>
+
+              <Menu className="bg-black bg-opacity-90 rounded-lg p-2 max-h-[80vh] overflow-y-auto mt-2 mb-2">
+                {hotspots.map((hotspot) => (
+                  <MenuItem
+                    key={hotspot.id}
+                    className="block w-full text-left px-4 py-3 text-white hover:bg-white hover:bg-opacity-20 rounded-xl transition-colors duration-200 font-pt-monument text-sm min-h-[44px] touch-manipulation"
+                    onClick={() => {
+                      centerMapOnHotspot(hotspot);
+                      setTimeout(() => {
+                        router.push(`/explore/${hotspot.id}`, { scroll: false });
+                      }, 1000);
+                    }}
+                  >
+                    <div className="font-bold">{hotspot.title}</div>
+                  </MenuItem>
+                ))}
+              </Menu>
+
           </MenuProvider>
           </div>
         </div> }
