@@ -6,6 +6,7 @@ import { createMarkerOverlay, updateOverlayPosition } from './markerFactory';
 import { hotspots, Hotspot } from '../data/hotspots';
 import type Map from 'ol/Map';
 import type Overlay from 'ol/Overlay';
+import KeyboardPan from 'ol/interaction/KeyboardPan'
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, MenuButton, MenuItem, MenuProvider } from '@ariakit/react';
@@ -104,6 +105,7 @@ export default function MapView({ onMapLoad }: MapViewProps) {
           }),
         ],
         view,
+        keyboardEventTarget: document,
       });
       
       map.getInteractions().forEach(interaction => {
@@ -141,44 +143,57 @@ export default function MapView({ onMapLoad }: MapViewProps) {
           view.setCenter([center[0] + deltaX, center[1] + deltaY]);
         }
       }, { passive: false });
+      //map viewport can receive keyboard focus
+      viewport.setAttribute('tabindex', '0');
+      const focusOnClick = () => viewport.focus();
+      viewport.addEventListener('click', focusOnClick);
+
+      //keyboard pan interaction
+      const kbPan = new KeyboardPan({
+        duration: 120,
+        pixelDelta: 64,
+      })
+
+      map.addInteraction(kbPan);
+
 
       // Add keyboard arrow key panning
-      const handleKeyDown = (event: KeyboardEvent) => {
-        const center = view.getCenter();
-        if (!center) return;
+      // const handleKeyDown = (event: KeyboardEvent) => {
+      //   const center = view.getCenter();
+      //   if (!center) return;
 
-        const panAmount = 200; // Adjust this value for panning speed
-        let deltaX = 0, deltaY = 0;
+      //   const panAmount = 200; // Adjust this value for panning speed
+      //   let deltaX = 0, deltaY = 0;
 
-        switch (event.key) {
-          case 'ArrowLeft':
-            deltaX = -panAmount;
-            break;
-          case 'ArrowRight':
-            deltaX = panAmount;
-            break;
-          case 'ArrowUp':
-            deltaY = panAmount;
-            break;
-          case 'ArrowDown':
-            deltaY = -panAmount;
-            break;
-          default:
-            return; // Don't prevent default for other keys
-        }
+      //   switch (event.key) {
+      //     case 'ArrowLeft':
+      //       deltaX = -panAmount;
+      //       break;
+      //     case 'ArrowRight':
+      //       deltaX = panAmount;
+      //       break;
+      //     case 'ArrowUp':
+      //       deltaY = panAmount;
+      //       break;
+      //     case 'ArrowDown':
+      //       deltaY = -panAmount;
+      //       break;
+      //     default:
+      //       return; // Don't prevent default for other keys
+      //   }
 
-        // Only prevent default for arrow keys
-        event.preventDefault();
+      //   // Only prevent default for arrow keys
+      //   event.preventDefault();
         
-        // Use smooth animation for panning
-        view.animate({
-          center: [center[0] + deltaX, center[1] + deltaY],
-          duration: 200, // Animation duration in milliseconds
-        });
-      };
+      //   // Use smooth animation for panning
+      //   view.animate({
+      //     center: [center[0] + deltaX, center[1] + deltaY],
+      //     duration: 200, // Animation duration in milliseconds
+      //   });
+      // };
 
       // Add keyboard event listener
-      document.addEventListener('keydown', handleKeyDown);
+      // document.addEventListener('keydown', handleKeyDown);
 
       mapInstanceRef.current = map;
       const tileLayer = map.getLayers().getArray()[0] as import('ol/layer/Tile').default;
@@ -237,7 +252,11 @@ export default function MapView({ onMapLoad }: MapViewProps) {
 
       return () => {
         // Remove keyboard event listener
-        document.removeEventListener('keydown', handleKeyDown);
+        // document.removeEventListener('keydown', handleKeyDown);
+
+        //remove open layers keyboard panner
+        map.removeInteraction(kbPan);
+        viewport.removeEventListener('click', focusOnClick);
         
         // Clean up pills
         cleanupPills();
